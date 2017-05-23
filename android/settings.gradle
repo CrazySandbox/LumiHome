@@ -1,0 +1,11 @@
+rootProject.name = 'LumiHome'
+include ':react-native-upnp'
+project(':react-native-upnp').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-upnp/android')
+include ':react-native-linear-gradient'
+project(':react-native-linear-gradient').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-linear-gradient/android')
+include ':react-native-localization'
+project(':react-native-localization').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-localization/android')
+include ':react-native-tcp'
+project(':react-native-tcp').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-tcp/android')
+
+include ':app'
