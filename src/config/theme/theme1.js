@@ -8,7 +8,6 @@ const commonStyle = StyleSheet.create({
   navBar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: 'rgba(39,43,51,1)',
     height: (Platform.OS === 'ios') ? 64 : 54,
     alignItems: 'center',
     paddingHorizontal: 13,

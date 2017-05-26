@@ -1,3 +1,3 @@
-import TextInputBase from './TextInputBase';
+import Input from './TextInput';
 
-export default TextInputBase;
+export default Input;

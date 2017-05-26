@@ -7,26 +7,33 @@ import {
   TouchableOpacity
 } from 'react-native';
 
+import { connect } from 'react-redux';
+import { logOut, ResetFactory } from '../../actions';
 import commonStyle from '../../config/theme/theme1';
 import langs from '../../config/langs';
 import { Actions } from 'react-native-router-flux';
+import LinearGradient from 'react-native-linear-gradient';
 
 class MenuListHome extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={commonStyle.navMenu}>
+        <LinearGradient
+          style={commonStyle.navMenu}
+          start={{x: 0.0, y: 0.0}} end={{x: 0.0, y: 1.0}}
+          locations={[0,0.3,1]}
+          colors={['#000', '#00000F', '#000']}>
           <Text style={commonStyle.navTitle}>
             {langs.menu}
           </Text>
-        </View>
+        </LinearGradient>
         <ScrollView>
           <TouchableOpacity
             style={styles.row}
             onPress={() => {}}
           >
             <Text style={styles.text}>
-              Mot
+              Tai khoan
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -34,7 +41,7 @@ class MenuListHome extends Component {
             onPress={() => {}}
           >
             <Text style={styles.text}>
-              hai
+              Ngon ngu
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -42,15 +49,23 @@ class MenuListHome extends Component {
             onPress={() => {}}
           >
             <Text style={styles.text}>
-              ba
+              Theme
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.row}
-            onPress={() => Actions.login({type: 'reset'})}
+            onPress={() => this.props.logOut()}
           >
             <Text style={styles.text}>
               Thoat
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.row}
+            onPress={() => this.props.ResetFactory()}
+          >
+            <Text style={styles.text}>
+              ResetFactory
             </Text>
           </TouchableOpacity>
         </ScrollView>
@@ -78,4 +93,10 @@ const styles = StyleSheet.create({
   }
 });
 
-export default MenuListHome;
+const mapStateToProp = (state) => {
+  return {
+    state
+  }
+}
+
+export default connect(mapStateToProp,{ logOut, ResetFactory })(MenuListHome);

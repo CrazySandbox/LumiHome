@@ -5,11 +5,17 @@ import {
   Text,
   ScrollView,
   KeyboardAvoidingView,
-  Image
+  Image,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+  AsyncStorage,
 } from 'react-native';
 
 import { connect } from 'react-redux';
 import { CheckConnect, loadInitial } from '../../actions';
+import { Actions } from 'react-native-router-flux';
+import { LoadDataFromStore } from '../../actions';
+import Loading from '../../components/base/loading';
 
 import Body from '../../config/body';
 import imgs from '../../config/theme';
@@ -21,32 +27,49 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      Data: this.props.Data
     }
   }
 
   componentWillMount() {
-
+    this.props.LoadDataFromStore()
   }
 
-  componentDidMount() {
-
+  doForgot() {
+    Actions.forgotpass()
   }
 
   render() {
-    return (
-      <Body>
+    var dismissKeyboard = require('dismissKeyboard');
+    if(this.props.DataReducer.loadingData) {
+      return (
+        <Body>
+          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} >
+            <Loading />
+          </View>
+        </Body>
+      );
+    } else {
+      return (
+        <Body>
           <View style={styles.container}>
-            <ScrollView>
-              <KeyboardAvoidingView behavior="padding">
-                <View style={styles.logo}>
-                  <Image source={imgs.logo.logoLumi} />
-                </View>
-                <LoginForm />
-                <View style={styles.forgot}>
-                  <Text style={styles.forgotText}>{langs.forgotpass}</Text>
-                </View>
-              </KeyboardAvoidingView>
+            <ScrollView keyboardShouldPersistTaps="always">
+              <TouchableWithoutFeedback onPress={dismissKeyboard}>
+                <KeyboardAvoidingView behavior="padding">
+                  <View style={styles.logo}>
+                    <Image source={imgs.logo.logoLumi} />
+                  </View>
+                  <LoginForm />
+                  <View style={styles.forgot}>
+                    <TouchableOpacity
+                      onPress={this.doForgot}>
+                      <Text style={styles.forgotText}>
+                        {langs.forgotpass}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </KeyboardAvoidingView>
+              </TouchableWithoutFeedback>
             </ScrollView>
             <View style={styles.footer} >
               <Text style={styles.footerText} >
@@ -54,8 +77,9 @@ class Login extends Component {
               </Text>
             </View>
           </View>
-      </Body>
-    );
+        </Body>
+      );
+    }
   }
 }
 
@@ -96,9 +120,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProp = (state) => {
-  console.log(state)
   return {
-    state
+    DataReducer: state.authen
   }
 }
-export default connect(mapStateToProp, { CheckConnect, loadInitial })(Login);
+export default connect(mapStateToProp, { LoadDataFromStore })(Login);

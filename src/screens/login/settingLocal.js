@@ -6,6 +6,7 @@ import {
   TouchableWithoutFeedback
 } from 'react-native';
 
+import { Actions } from 'react-native-router-flux';
 import Body from '../../config/body';
 import Input from '../../components/base';
 import Button from '../../components/base/button';
@@ -22,7 +23,7 @@ class SettingLocal extends Component {
   }
 
   onSave() {
-    console.log('click me')
+    Actions.login({type: 'reset'})
   }
 
   focusNextField = (nextField) => {
@@ -38,7 +39,8 @@ class SettingLocal extends Component {
             <View>
               <Input
                 placeholder={langs.ip}
-                onChangeText={this.ipChangeText}
+                onChangeText={this.ipChangeText.bind(this)}
+                keyboardType="numeric"
                 textInputRef="ip"
                 ref="ip"
                 onSubmitEditing={() => this.focusNextField("port")}
@@ -47,8 +49,9 @@ class SettingLocal extends Component {
             <View>
               <Input
                 placeholder={langs.port}
-                onChangeText={this.portChangeText}
+                onChangeText={this.portChangeText.bind(this)}
                 returnKeyType="done"
+                keyboardType="number-pad"
                 textInputRef="port"
                 ref="port"
               />

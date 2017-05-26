@@ -13,6 +13,7 @@ import imgs from './config/theme';
 
 // import screen
 import Home from './screens/home/Home';
+import Event from './screens/home/Event';
 import Room from './screens/room/Room';
 import Scenes from './screens/scene/Scene';
 import Camera from './screens/camera/Camera';
@@ -35,6 +36,7 @@ const RouterWithRedux = connect()(Router);
 
 class RouterComponent extends Component {
   render() {
+    const DATA = this.props;
     const { initInstall } = this.props
     return (
       <RouterWithRedux
@@ -47,10 +49,10 @@ class RouterComponent extends Component {
             <Scene key="login"
               component={Login}
               initial
+              Data={DATA}
             />
             <Scene key="intro1"
               component={Intro1}
-
             />
             <Scene key="intro2"
               component={Intro2}
@@ -116,6 +118,12 @@ class RouterComponent extends Component {
                     key="home"
                     component={Home}
                     title={langs.home}
+                    rightButtonTextStyle={commonStyle.navRightTextButton}
+                  />
+                  <Scene
+                    key="event"
+                    component={Event}
+                    title="Event"
                     rightButtonTextStyle={commonStyle.navRightTextButton}
                   />
                 </Scene>

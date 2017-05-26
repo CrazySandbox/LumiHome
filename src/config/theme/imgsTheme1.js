@@ -49,8 +49,9 @@ export const iconSetting = {
   user: require('../../imgs/theme1/iconSetting/user_image.png'),
   backWhite: require('../../imgs/theme1/iconSetting/back/White.png'),
   backOrange: require('../../imgs/theme1/iconSetting/back/Orange.png'),
-  hideMenu: require('../../imgs/theme1/iconSetting/Hide_Menu/Grey.png'),
+  hidemenu: require('../../imgs/theme1/iconSetting/Hide_Menu/Grey.png'),
   iconLocal: require('../../imgs/theme1/iconSetting/Local/Green.png'),
+  avatar: require('../../imgs/theme1/iconSetting/user_image.png'),
 }
 
 export const iconEdit = {

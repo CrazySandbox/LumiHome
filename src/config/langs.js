@@ -33,6 +33,7 @@ let langs = new LocalizedString({
     ip: 'IP Address',
     port: 'PORT',
     menu: 'MENU',
+    listhomezero: 'No home',
 
     //*******Title navBar
     registerNav: 'Register',
@@ -44,8 +45,8 @@ let langs = new LocalizedString({
     errorConnectToSever: 'Unconnect to Server',
     errorUser: 'Username is value null',
     errorPass: 'Password is value null',
-    errorLogin: 'Email or password not match',
-
+    errorLogin: 'User or password not match',
+    errorUserSpace: 'Username is not space',
   },
   vn: {
     //****Tabbar
@@ -77,6 +78,7 @@ let langs = new LocalizedString({
     ip: 'IP nội mạng',
     port: 'Cổng nội mạng',
     menu: 'MENU',
+    listhomezero: 'Không có nhà nào ở đây',
 
     //*******Title navBar
     registerNav: 'Tạo tài khoản',
@@ -89,6 +91,7 @@ let langs = new LocalizedString({
     errorUser: 'Tên đăng nhập trống',
     errorPass: 'Mật khẩu trống',
     errorLogin: 'Tên đăng nhập hoặc mật khẩu không đúng',
+    errorUserSpace: 'Tên đăng nhập không được chứa khoảng trắng',
   }
 });
 

@@ -6,69 +6,92 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
-  Text,
-  Alert,
-  AsyncStorage
+  Text
 } from 'react-native';
 
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
+import { LoginAction } from '../../actions';
 
 import langs from '../../config/langs';
 import LinearGradient from 'react-native-linear-gradient';
-import TextInputBase from '../../components/base';
+import Input from '../../components/base';
+import Button from '../../components/base/button';
 
 class LoginForm extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      user: '',
-      pass: '',
+      user: this.props.DataReducer.user || '',
+      pass: this.props.DataReducer.pass || '',
+    }
+  }
+
+  componentWillMount() {
+    let DataLogin = this.state
+    if(this.props.DataReducer.autoLogin == "1") {
+      this.props.LoginAction(DataLogin);
     }
   }
 
   doLogin() {
-    var a = langs.getLanguage()
-    console.log('langs',a)
+    let DataLogin = this.state
+    this.props.LoginAction(DataLogin)
   }
 
   userChangeText(value) {
-    console.log(value)
+    this.setState({
+      user: value
+    })
   }
 
   passChangeText(value) {
-    console.log(value)
+    this.setState({
+      pass: value
+    })
+  }
+
+  focusNextField = (nextField) => {
+    this.refs[nextField].focus();
+  };
+
+  doSetting() {
+    Actions.settinglocal()
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <View>
-          <TextInputBase
-            type="user"
-            placeholder={langs.loginUsername}
-          />
-        </View>
-
-        <View>
-        <TextInputBase
+      <View>
+        <Input
           type="user"
-          placeholder={langs.loginPass}
+          placeholder={langs.loginUsername}
+          onChangeText={this.userChangeText.bind(this)}
+          textInputRef="user"
+          ref="user"
+          value={this.state.user}
+          onSubmitEditing={() => this.focusNextField("pass")}
+          doSetting={this.doSetting.bind(this)}
         />
-        </View>
-
-        <TouchableOpacity style={styles.btnLogin}
-          onPress={this.doLogin.bind(this)}
-        >
-          <LinearGradient
-            style={styles.buttonContainer}
-            start={{x: 1, y: 0}} end={{x: 0, y: 0.5}}
-            locations={[0,0.5,1]}
-            colors={['#192f6a', '#3b5998', '#192f6a']}>
-            <Text style={styles.buttonText}>{langs.loginLogin}
-            </Text>
-          </LinearGradient>
-        </TouchableOpacity>
+      </View>
+      <View>
+        <Input
+          type="pass"
+          placeholder={langs.loginPass}
+          onChangeText={this.passChangeText.bind(this)}
+          returnKeyType="done"
+          textInputRef="pass"
+          value={this.state.pass}
+          ref="pass"
+        />
+      </View>
+      <Button
+        gradient
+        style={styles.btnLogin}
+        title={langs.loginLogin}
+        onPress={this.doLogin.bind(this)}
+      />
       </View>
     );
   }
@@ -80,39 +103,14 @@ const styles = StyleSheet.create({
     marginTop: 100,
     alignItems: 'center',
   },
-  input:{
-    height: 40,
-    width: 350,
-    backgroundColor: 'rgba(255,255,255,0.2)',
-    color: 'white',
-    marginBottom: 10,
-    paddingHorizontal: 10,
-    borderRadius: 3,
-  },
   btnLogin: {
-    marginTop: 5,
-    marginBottom: 5
-  },
-  buttonContainer:{
-    height: 50,
-    width: 350,
-    borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonText:{
-    textAlign: 'center',
-    color: '#FFFFFF',
-    fontSize: 17,
-    fontWeight: 'bold',
-    backgroundColor: 'transparent'
+    marginBottom: 8
   },
 });
 
 const mapStateToProp = (state) => {
-  //console.log(state);
   return {
-    data: state
+    DataReducer: state.authen
   }
 }
-export default connect(mapStateToProp)(LoginForm);
+export default connect(mapStateToProp, { LoginAction })(LoginForm);

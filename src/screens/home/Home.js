@@ -14,86 +14,83 @@ import Body from '../../config/body';
 import { connect } from 'react-redux';
 import { LoginAction } from '../../actions';
 import { Actions } from 'react-native-router-flux';
+import Button from '../../components/base/button';
+import SocketClient from '../../config/socket/socket-client';
 
 var { height, width } = Dimensions.get('window');
 
+const PLACE = 'home/Home.js'
+
 class Home extends Component {
-  constructor(props) {
-    super(props);
+  constructor(props)
+  {
+    super(props)
     this.state = {
-      dulieu: this.props.data,
-      scroll: false,
-      user: '',
-      pass: '',
-      isLogin: false,
-      isOpen: false,
+      refreshing:false,
+      loading:true,
+      count: 0,
+      isRunning: false,
+      floors:[
+      ],
+      refreshCount:0,
+      idTimer:null
     }
   }
 
-  static contextTypes = {
-    routes: PropTypes.object.isRequired,
-  };
+  _onRefresh() {
 
-  renderNavigationBar(props){
-    return(
-      <Text>Render</Text>
-    )
+    SocketClient.getInstance().sendCommandStringInPlace(PLACE, "$mfloor=lst", {domain:this.props.data.domain}, (data)=>{
+        if(data.err != null)
+        {
+          this.setState({
+            refreshing: false,
+            loading  : false,
+            floors : []
+          });
+          return;
+        }
+        var refreshCount = this.state.refreshCount + 1;
+
+        data.lst.sort(function(a, b){return parseInt(a.floorid) - parseInt(b.floorid)})
+        this.setState({
+          refreshing: false,
+          loading  : false,
+          floors : data.lst,
+          refreshCount:refreshCount
+        });
+    });
   }
 
-  renderRightButton = () => {
-    console.log('props la: ',this.props)
-    return (
-      <TouchableOpacity onPress={this._onSave}>
-        <Text style={styles.text} >Luu</Text>
-      </TouchableOpacity>
-    );
+  componentDidMount()
+  {
+    if(this.state.loading)
+      this._onRefresh();
   }
 
-  _onSave = () => {
-    console.log('luu user: ',this.state.user);
-    this.context.routes.tab2();
-    console.log('routers', this.context.routes)
+  onReconnect(data)
+  {
+    if(this.devices != null)
+      SocketClient.getInstance().sendCommandStringInPlace(PLACE, '$mdev=reg', {dev:this.devices});
   }
 
-  componentWillMount() {
-    this.props.LoginAction();
-    a = this.props.data;
-  }
-
-  componentWillUnmount() {
-
-  }
-
-  componentDidMount() {
-    Actions.refresh({renderRightButton: this.renderRightButton});
-  }
-
-  onPress = () => {
-    console.log('khi nhan login ',this.props.data);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    //console.log('sau khi update ',nextProps.data);
-  }
-
-  _changeTextUser(value) {
-    this.setState({
-      user: value
+  _onPress() {
+    SocketClient.getInstance().sendCommandStringInPlace(PLACE, "$mroom=lstfloor", {domain:this.props.data.domain}, (data)=>{
+      console.log(data)
     })
-    console.log(this.state.user)
   }
 
   render() {
+    console.log(this.state.floors)
     return (
       <Body>
         <View style={styles.container}>
-        <View>
-          <TextInput
-            style={styles.textInput}
-            placeholder="Nhap vao day"
-            placeholderTextColor="rgba(255,255,255,0.2)"
-            onChangeText={(value) => this._changeTextUser(value)}
-          />
+          <View>
+            <TextInput />
+            <Button
+              gradient
+              title="Button"
+              onPress={() => this._onPress()}
+            />
           </View>
         </View>
       </Body>
@@ -148,7 +145,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  return { data: state.routerReducer }
+  console.log(state)
+  return { data: state.authen.listhome[0] }
 }
 
 export default connect(mapStateToProps, { LoginAction })(Home);
