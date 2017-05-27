@@ -20,6 +20,7 @@ const LIFE_TIME = 50000;
 const CMD_DEVICE_CHANGE_STATUS = "$mdev=stt";
 
 const DEBUG = true;
+//import {isCheatIp, IsIpVn} from './config'
 
 if (!Array.prototype.remove) {
   Array.prototype.remove = function(val) {
@@ -60,6 +61,18 @@ if (!Array.prototype.contain) {
     return false;
   }
 }
+// if (!Array.prototype.indexOf) {
+//   Array.prototype.indexOf = function(value){
+//     for (var i = 0; i < this.length; i++) {
+//       if(this[i] == value)
+//       {
+//         return i;
+//       }
+//     }
+//     return -1;
+//   }
+// }
+
 
 function Utf8ArrayToStr(array) {
     var out, i, len, c;
@@ -108,10 +121,31 @@ class SocketClient {
     this.onConnected = null;
     this.firstConnect = true;
     this.mapCallbacks = {};
+    this.intervalConnect = null
 	}
+  reconnect()
+  {
+    if(this.socket)
+      this.socket.destroy()
+  }
+
+  clearListener()
+  {
+    for (var i = 0; i < this.callbacks.length; i++) {
+        clearTimeout(this.callbacks[i].timer);
+    }
+    this.callbacks = [];
+    this.commandBuffer = '';
+    this.count = 0;
+    this.callbacksDevicesChangedStatusAUTO = [];
+    this.callbacksAUTO = {}
+  }
+
 	connect() {
     	var net = require('react-native-tcp')
-    	this.socket = net.createConnection(1221, "125.212.226.68");
+      this.socket = net.createConnection(1221, "35.154.231.180");
+    	// this.socket = net.createConnection(1221, "35.154.231.180"); SV an do
+      // this.socket = net.createConnection(1221, "125.212.226.68"); SV VN
     	this.socket.on("connect", () => {
         	if(!this.isConnected) {
   	     		this.isConnected = true;
@@ -121,50 +155,55 @@ class SocketClient {
         	}
   	     	this.isConnected = true;
          	this.socket.setEncoding("UTF8");
+          if(this.intervalConnect)
+          {
+            clearTimeout(this.intervalConnect)
+            this.intervalConnect = null
+          }
     	});
 		this.socket.on('data', (data) => {
 			this.onReceiveData(data);
 		});
-  	this.socket.on('close', (data) => {
-      if(DEBUG)
-		     console.log("Socket close")
-  		if(this.isConnected || this.firstConnect){
-    		for (var i = 0; i < this.callbacks.length; i++) {
-      			clearTimeout(this.callbacks[i].timer);
-    		}
-    		this.callbacks = [];
-    		this.commandBuffer = '';
-    		this.count = 0;
-    		this.callbacksDevicesChangedStatusAUTO = [];
-    		this.callbacksAUTO = {}
+    	this.socket.on('close', (data) => {
+        if(DEBUG)
+		     {
+           console.log("Socket close")
+         }
+    		if(this.isConnected || this.firstConnect){
+          this.isConnected = false;
+      		this.commandBuffer = '';
+      		this.count = 0;
 
-    		if(this.onConnected != null){
-      			this.onConnected(false);
+      		if(this.onConnected != null){
+        			this.onConnected(false);
+      		}
     		}
-  		}
-  		this.isConnected = false;
-  		this.firstConnect = false;
-	    this.connect();
-	  });
+    		this.isConnected = false;
+    		this.firstConnect = false;
+	       //this.connect();
+         this.intervalConnect = setTimeout(()=>{
+           this.connect()
+         }, 2000)
+		});
 		this.socket.on('error', () => {
       if(DEBUG)
-			console.log("retry connecting...")
-      		if(this.isConnected || this.firstConnect){
-        		for (var i = 0; i < this.callbacks.length; i++) {
-          			clearTimeout(this.callbacks[i].timer);
-        		}
-        		this.callbacks = [];
-        		this.commandBuffer = '';
-		        this.count = 0;
-		        this.callbacksDevicesChangedStatusAUTO = [];
-		        this.callbacksAUTO = {}
-
-        		if(this.onConnected != null) {
-          			this.onConnected(false);
-        		}
-      		}
-      		this.firstConnect = false;
-      		this.isConnected = false;
+			console.log("error::retry connecting...")
+      		// if(this.isConnected || this.firstConnect){
+        	// 	for (var i = 0; i < this.callbacks.length; i++) {
+          // 			clearTimeout(this.callbacks[i].timer);
+        	// 	}
+        	// 	this.callbacks = [];
+        	// 	this.commandBuffer = '';
+		      //   this.count = 0;
+		      //   this.callbacksDevicesChangedStatusAUTO = [];
+		      //   this.callbacksAUTO = {}
+          //
+        	// 	if(this.onConnected != null) {
+          // 			this.onConnected(false);
+        	// 	}
+      		// }
+      		// this.firstConnect = false;
+      		// this.isConnected = false;
 		})
 	}
 
@@ -252,18 +291,18 @@ class SocketClient {
   }
 
   send(place, key, data, callback){
-
     if(!this.isConnected)
     {
       //console.log("Now is disconnected !!! : ");
       	Alert.alert(
 			null,
-			"Lost connection !!!",
+			"Now is disconnected !!!",
 			[
             	{text: 'OK'},
             ]
 		);
-      callback({err:'dis'});
+      if(callback)
+        callback({err:'dis'});
       return;
     }
     try {
@@ -377,9 +416,7 @@ class SocketClient {
   {
     if(this.mapCallbacks[place] == undefined)
       return;
-    while (this.mapCallbacks[place] != undefined && this.mapCallbacks[place] != 0) {
-      this.removeCallback(this.mapCallbacks[place][0]);
-    }
+    this.mapCallbacks[place] = []
   }
 
   removeCallback(key, invoke)
@@ -469,8 +506,8 @@ class SocketClient {
     }
 	}
 	receivedString(str) {
-    // if(DEBUG)
-    //   console.log("Receive : " + str + " :: callbacks = " + this.callbacks.length );
+    if(DEBUG)
+      console.log("Receive : " + str );
 		this.commandBuffer += str;
 		//Process receive String
     var commands = this.commandBuffer.split("$end");

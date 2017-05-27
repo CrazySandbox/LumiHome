@@ -16,6 +16,7 @@ import { LoginAction } from '../../actions';
 import { Actions } from 'react-native-router-flux';
 import Button from '../../components/base/button';
 import SocketClient from '../../config/socket/socket-client';
+import CommonData from '../../config/socket/CommonData';
 
 var { height, width } = Dimensions.get('window');
 
@@ -35,11 +36,14 @@ class Home extends Component {
       refreshCount:0,
       idTimer:null
     }
+    // CommonData.getInstance().setDomain(this.props.data.domain);
+    // CommonData.getInstance().setMacAdress(this.props.data.mac);
+    // CommonData.getInstance().clearRoom();
   }
 
   _onRefresh() {
 
-    SocketClient.getInstance().sendCommandStringInPlace(PLACE, "$mfloor=lst", {domain:this.props.data.domain}, (data)=>{
+    SocketClient.getInstance().sendCommandStringInPlace(PLACE, "$mfloor=lst", {domain:''}, (data)=>{
         if(data.err != null)
         {
           this.setState({
@@ -74,8 +78,8 @@ class Home extends Component {
   }
 
   _onPress() {
-    SocketClient.getInstance().sendCommandStringInPlace(PLACE, "$mroom=lstfloor", {domain:this.props.data.domain}, (data)=>{
-      console.log(data)
+    SocketClient.getInstance().sendCommandStringInPlace(this.PLACE, '$log=get', {domain:!this.props.data.domain ? '' : this.props.data.domain, type:'0', startime:String(startime.getTime()), space:String(space)}, (json)=>{
+      console.log('get', json)
     })
   }
 

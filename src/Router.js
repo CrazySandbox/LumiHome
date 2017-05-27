@@ -48,7 +48,7 @@ class RouterComponent extends Component {
           <Scene key="root" hideNavBar hideTabBar >
             <Scene key="login"
               component={Login}
-              initial
+
               Data={DATA}
             />
             <Scene key="intro1"
@@ -100,7 +100,7 @@ class RouterComponent extends Component {
               titleStyle={commonStyle.navTitle}
             />
 
-            <Scene key="tabbar" component={NavigationDrawer}>
+            <Scene key="tabbar" initial component={NavigationDrawer}>
               <Scene
                 key="main"
                 tabs

@@ -58,3 +58,7 @@ export const iconEdit = {
   delete: require('../../imgs/theme1/iconEdit/del_text.png'),
   delete1: require('../../imgs/theme1/iconEdit/delete.png')
 }
+
+export const iconSpeaker = {
+  status: require('../../imgs/theme1/iconSpeaker/status/Green.png'),
+}

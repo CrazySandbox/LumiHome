@@ -47,6 +47,10 @@ let langs = new LocalizedString({
     errorPass: 'Password is value null',
     errorLogin: 'User or password not match',
     errorUserSpace: 'Username is not space',
+
+    //*******speaker
+    addSpeaker: 'Add Speaker',
+    noSpeaker: 'Nothing here!',
   },
   vn: {
     //****Tabbar
@@ -92,6 +96,10 @@ let langs = new LocalizedString({
     errorPass: 'Mật khẩu trống',
     errorLogin: 'Tên đăng nhập hoặc mật khẩu không đúng',
     errorUserSpace: 'Tên đăng nhập không được chứa khoảng trắng',
+
+    //*******speaker
+    addSpeaker: 'Thêm Speaker',
+    noSpeaker: 'Không có speaker nào ở đây!',
   }
 });
 

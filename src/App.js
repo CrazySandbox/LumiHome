@@ -14,6 +14,7 @@ class App extends Component {
     super(props);
     this.state = {
       initInstall: 0,
+      loading: true,
     }
   }
 
@@ -32,11 +33,17 @@ class App extends Component {
       }
     })
 
+    setTimeout(() => {
+      this.setState({
+        loading: false
+      })
+    }, 500)
+
   }
 
   render() {
-    let { initInstall } = this.state
-    if(initInstall == 0) {
+    let { initInstall, loading } = this.state
+    if(initInstall == 0 || loading) {
       return (
         <Body>
           <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} >
