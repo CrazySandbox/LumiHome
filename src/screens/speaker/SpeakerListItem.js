@@ -6,10 +6,13 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  StyleSheet
+  StyleSheet,
+  Dimensions,
 } from 'react-native';
 import langs from '../../config/langs';
 import imgs from '../../config/theme';
+
+var { width, height} = Dimensions.get('window');
 
 class SpeakerListItem extends Component {
   render() {
@@ -66,6 +69,7 @@ class SpeakerListItem extends Component {
 const styles = StyleSheet.create({
   container: {
     height: 110,
+    width: width,
     flexDirection: 'row',
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
     marginBottom: 0.5

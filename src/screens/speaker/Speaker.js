@@ -9,7 +9,11 @@ import Body from '../../config/body';
 import Button from '../../components/base/button';
 import langs from '../../config/langs';
 import Loading from '../../components/base/loading';
-import { listenUPNPSpeaker, upDateSpeaker } from '../../actions'
+import {
+  listenUPNPSpeaker,
+  upDateSpeaker,
+  clearIntervalSpeaker
+} from '../../actions'
 import { connect } from 'react-redux';
 import SpeakerListItem from './SpeakerListItem';
 
@@ -20,29 +24,33 @@ class Speaker extends Component {
     this.state = {
       listSpeaker: this.props.data.listSpeaker || [],
       loading: true,
+      ip: this.props.data.ip || []
     }
   }
 
   componentWillMount() {
-    this.props.listenUPNPSpeaker(this.state.loading)
+    // this.props.listenUPNPSpeaker(this.state.loading)
   }
 
   componentDidMount() {
+    this.props.clearIntervalSpeaker()
     this.props.upDateSpeaker()
+  }
+
+  componentWillUnmount() {
+    this.props.clearIntervalSpeaker()
   }
 
   componentWillReceiveProps(nextProps) {
     let seft = this
-    if(this.state.listSpeaker !== nextProps.data.listSpeaker) {
+    if(this.state.ip !== nextProps.data.ip) {
+      // console.log('state',this.state.ip)
+      // console.log('props',nextProps.data.ip)
       this.setState({
         listSpeaker: nextProps.data.listSpeaker,
-        loading: nextProps.data.loading
+        loading: nextProps.data.loading,
+        ip: nextProps.data.ip
       })
-      setTimeout(function () {
-        seft.setState({
-          loading: false
-        })
-      }, 500);
     }
   }
 
@@ -51,7 +59,6 @@ class Speaker extends Component {
   }
 
   _renderItem = ({item}) => {
-    console.log('item', item)
     return (
       <SpeakerListItem
         onPressItem={this._onPressItem}
@@ -62,7 +69,6 @@ class Speaker extends Component {
 
   render() {
     const { listSpeaker, loading } = this.state
-    console.log('list', listSpeaker)
     const ListSpeaker = (
         <FlatList
           data={listSpeaker}
@@ -123,4 +129,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { listenUPNPSpeaker, upDateSpeaker })(Speaker);
+export default connect(mapStateToProps, { listenUPNPSpeaker, upDateSpeaker, clearIntervalSpeaker })(Speaker);

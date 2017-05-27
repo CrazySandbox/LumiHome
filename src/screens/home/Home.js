@@ -43,32 +43,32 @@ class Home extends Component {
 
   _onRefresh() {
 
-    SocketClient.getInstance().sendCommandStringInPlace(PLACE, "$mfloor=lst", {domain:''}, (data)=>{
-        if(data.err != null)
-        {
-          this.setState({
-            refreshing: false,
-            loading  : false,
-            floors : []
-          });
-          return;
-        }
-        var refreshCount = this.state.refreshCount + 1;
-
-        data.lst.sort(function(a, b){return parseInt(a.floorid) - parseInt(b.floorid)})
-        this.setState({
-          refreshing: false,
-          loading  : false,
-          floors : data.lst,
-          refreshCount:refreshCount
-        });
-    });
+    // SocketClient.getInstance().sendCommandStringInPlace(PLACE, "$mfloor=lst", {domain:''}, (data)=>{
+    //     if(data.err != null)
+    //     {
+    //       this.setState({
+    //         refreshing: false,
+    //         loading  : false,
+    //         floors : []
+    //       });
+    //       return;
+    //     }
+    //     var refreshCount = this.state.refreshCount + 1;
+    //
+    //     data.lst.sort(function(a, b){return parseInt(a.floorid) - parseInt(b.floorid)})
+    //     this.setState({
+    //       refreshing: false,
+    //       loading  : false,
+    //       floors : data.lst,
+    //       refreshCount:refreshCount
+    //     });
+    // });
   }
 
   componentDidMount()
   {
-    if(this.state.loading)
-      this._onRefresh();
+    // if(this.state.loading)
+    //   this._onRefresh();
   }
 
   onReconnect(data)
@@ -91,7 +91,7 @@ class Home extends Component {
           <View>
             <TextInput />
             <Button
-              gradient
+              style={{backgroundColor: '#19c1ff'}}
               title="Button"
               onPress={() => this._onPress()}
             />
@@ -149,7 +149,6 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  console.log(state)
   return { data: state.authen.listhome[0] }
 }
 

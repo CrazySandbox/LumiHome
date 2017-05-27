@@ -1,12 +1,14 @@
 import {
   SEARCH_SPEAKER,
   FINISH_LOAD_SPEAKER,
-  SEARCH_SPEAKER_LOADING
+  SEARCH_SPEAKER_LOADING,
+  FINSH_GET_SPEAKER
 } from '../actions/types';
 
 INITIAL = {
   listSpeaker: {},
   loading: false,
+  ip: {}
 }
 
 export default (state = INITIAL, action) => {
@@ -23,8 +25,15 @@ export default (state = INITIAL, action) => {
       }
     case FINISH_LOAD_SPEAKER:
       return {
+        ...state,
         listSpeaker: action.payload,
-        loading: false
+        loading: false,
+      }
+    case FINSH_GET_SPEAKER:
+      return {
+        ...state,
+        loading: false,
+        ip: action.payload
       }
     default:
       return state

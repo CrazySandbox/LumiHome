@@ -62,3 +62,7 @@ export const iconEdit = {
 export const iconSpeaker = {
   status: require('../../imgs/theme1/iconSpeaker/status/Green.png'),
 }
+
+export const backGround = {
+  background: require('../../imgs/theme1/bg.png'),
+}
