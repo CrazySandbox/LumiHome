@@ -32,7 +32,6 @@ export default (state = INITIAL, action) => {
     case FINSH_GET_SPEAKER:
       return {
         ...state,
-        loading: false,
         ip: action.payload
       }
     default:

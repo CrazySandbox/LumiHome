@@ -22,18 +22,17 @@ class Speaker extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      listSpeaker: this.props.data.listSpeaker || [],
+      listSpeaker: this.props.data.listSpeaker,
       loading: true,
-      ip: this.props.data.ip || []
+      ip: this.props.data.ip
     }
   }
 
   componentWillMount() {
-    // this.props.listenUPNPSpeaker(this.state.loading)
+    this.props.listenUPNPSpeaker(false)
   }
 
   componentDidMount() {
-    this.props.clearIntervalSpeaker()
     this.props.upDateSpeaker()
   }
 
@@ -44,8 +43,6 @@ class Speaker extends Component {
   componentWillReceiveProps(nextProps) {
     let seft = this
     if(this.state.ip !== nextProps.data.ip) {
-      // console.log('state',this.state.ip)
-      // console.log('props',nextProps.data.ip)
       this.setState({
         listSpeaker: nextProps.data.listSpeaker,
         loading: nextProps.data.loading,
@@ -124,6 +121,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
+  console.log(state.wifiaudio)
   return {
     data: state.wifiaudio
   }

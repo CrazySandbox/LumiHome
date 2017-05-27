@@ -11,7 +11,7 @@ import {
   FINSH_GET_SPEAKER
 } from '../types';
 
-const TIME_UPDATE = 30000;
+const TIME_UPDATE = 2000;
 const listIP = [];
 const Data = [];
 var timer = null;
@@ -69,7 +69,7 @@ export const listenSpeaker = (ip) => {
         if(!check) {
           Data.push(json)
         }
-        console.log('listIP', listIP)
+        //console.log('listIP', listIP)
         dispatch(finishGetSpeaker(listIP))
         dispatch(getPlayerStatus(listIP, Data))
       }
@@ -113,7 +113,7 @@ export const upDateSpeaker = () => {
   return (dispatch) => {
     clearInterval(timer);
     timer = setInterval(() => dispatch(listenUPNPSpeaker(loading)), TIME_UPDATE)
-    dispatch({type: TIMER_START})
+    //dispatch({type: TIMER_START})
     dispatch(listenUPNPSpeaker(loading))
   }
 }
