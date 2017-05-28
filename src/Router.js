@@ -224,8 +224,6 @@ class RouterComponent extends Component {
                     key="speaker"
                     component={Speaker}
                     title={langs.speaker}
-                    onRight={() => alert('Right button')}
-                    rightTitle="Right"
                     rightButtonTextStyle={commonStyle.navRightTextButton}
                   />
                 </Scene>

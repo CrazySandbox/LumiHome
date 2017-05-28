@@ -16,6 +16,8 @@ import {
 } from '../../actions'
 import { connect } from 'react-redux';
 import SpeakerListItem from './SpeakerListItem';
+import { Actions } from 'react-native-router-flux';
+import imgs from '../../config/theme';
 
 class Speaker extends Component {
 
@@ -24,11 +26,17 @@ class Speaker extends Component {
     this.state = {
       listSpeaker: this.props.data.listSpeaker,
       loading: true,
-      ip: this.props.data.ip
+      ip: this.props.data.ip,
+      refreshing: false
     }
   }
 
   componentWillMount() {
+    this.props.listenUPNPSpeaker(this.state.loading)
+    Actions.refresh({onRight: this.onRight, rightButtonImage: imgs.iconSpeaker.add})
+  }
+
+  onRight = () => {
     this.props.listenUPNPSpeaker(this.state.loading)
   }
 
@@ -38,6 +46,12 @@ class Speaker extends Component {
 
   componentWillUnmount() {
     this.props.clearIntervalSpeaker()
+    this.props.upDateSpeaker()
+		if(this.timeoutSearch)
+		{
+			clearTimeout(this.timeoutSearch)
+			this.timeoutSearch = null
+		}
   }
 
   componentWillReceiveProps(nextProps) {
@@ -46,13 +60,24 @@ class Speaker extends Component {
       this.setState({
         listSpeaker: nextProps.data.listSpeaker,
         loading: nextProps.data.loading,
-        ip: nextProps.data.ip
+        ip: nextProps.data.ip,
+        refreshing: false
       })
     }
   }
 
   onPressItem = () => {
     console.log('click me');
+  }
+
+  onRefresh() {
+    this.props.listenUPNPSpeaker()
+    this.timeoutSearch = setTimeout(()=> {
+			this.setState({
+				refreshing : false
+			})
+			this.timeoutSearch = null
+		}, 60000);
   }
 
   _renderItem = ({item}) => {
@@ -71,6 +96,9 @@ class Speaker extends Component {
           data={listSpeaker}
           keyExtractor={item => item.MAC}
           renderItem={this._renderItem}
+          onRefresh={this.onRefresh.bind(this)}
+          refreshing={this.state.refreshing}
+          enableEmptySections={true}
         />
     )
 
@@ -81,7 +109,7 @@ class Speaker extends Component {
         </Text>
         <Button
           title={langs.addSpeaker}
-          gradient
+          style={styles.button}
           onPress={() => this.props.listenUPNPSpeaker()}
         />
       </View>
@@ -117,6 +145,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     marginBottom: 13,
     color: 'white'
+  },
+  button: {
+    backgroundColor: 'rgba(25, 193, 255, 0.9)',
+    borderRadius: 5,
   }
 });
 

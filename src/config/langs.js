@@ -51,6 +51,10 @@ let langs = new LocalizedString({
     //*******speaker
     addSpeaker: 'Add Speaker',
     noSpeaker: 'Nothing here!',
+    playing: 'Playing:',
+    pause: 'Pause:',
+    stop: 'Stop',
+
   },
   vn: {
     //****Tabbar
@@ -100,6 +104,9 @@ let langs = new LocalizedString({
     //*******speaker
     addSpeaker: 'Thêm Speaker',
     noSpeaker: 'Không có speaker nào ở đây!',
+    playing: 'Playing:',
+    pause: 'Pause:',
+    stop: 'Stop',
   }
 });
 

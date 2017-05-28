@@ -17,6 +17,8 @@ var Slider = require('react-native-slider');
 import WifiAudio from '../../actions/speaker/wifiaudio';
 import { connect } from 'react-redux';
 import { listenUPNPSpeaker } from '../../actions';
+import Toast from '@remobile/react-native-toast';
+import { Utf8ArrayToStr } from '../../actions/speaker/convertData';
 
 class SpeakerListItem extends Component {
   constructor(props) {
@@ -28,9 +30,13 @@ class SpeakerListItem extends Component {
   }
 
   onSetVol = () => {
-    WifiAudio.setVol(this.props.speaker.apcli0, this.state.value);
-    WifiAudio.setVol(this.props.speaker.eth2, this.state.value);
-    this.props.listenUPNPSpeaker()
+    WifiAudio.setVol(this.props.speaker.apcli0, this.state.value, (json) => {
+      Toast.showShortCenter('Set volume ' + this.state.value);
+    });
+    WifiAudio.setVol(this.props.speaker.eth2, this.state.value, (json) => {
+      Toast.showShortCenter('Set volume ' + this.state.value);
+    });
+    this.props.listenUPNPSpeaker();
   }
 
   onSetMute() {
@@ -47,6 +53,18 @@ class SpeakerListItem extends Component {
     }
   }
 
+  onSetChannel() {
+    let channel = parseInt(this.state.speaker.player.ch) + 1
+    if(channel > 2)
+    {
+      channel = 0
+    }
+    WifiAudio.setChannel(this.props.speaker.apcli0, this.props.speaker.player.type, channel, (json)=>{
+
+    })
+
+  }
+
   render() {
     const {
       onPressItem,
@@ -54,10 +72,14 @@ class SpeakerListItem extends Component {
     } = this.props
 
     const leftRightChannel =
-       (
-        <Text style={styles.textLeftRight}>
-          {speaker.player.ch == "0" ? "LR" : speaker.player.ch == "1" ? "L" : "R"}
-        </Text>
+      (
+        <TouchableOpacity activeOpacity={0.7}
+          onPress={this.onSetChannel.bind(this)}
+        >
+          <Text style={styles.textLeftRight}>
+            {speaker.player.ch == "0" ? "LR" : speaker.player.ch == "1" ? "L" : "R"}
+          </Text>
+        </TouchableOpacity>
       )
 
 
@@ -95,11 +117,11 @@ class SpeakerListItem extends Component {
               resizeMode="stretch"
             />
             <Text style={styles.status} >
-              {speaker.player.status == "stop" ? "Stop" : "Pause"}
+              {speaker.player.status == "play" ? langs.playing : (speaker.player.Title.toLowerCase() !== "unknown" ? langs.pause : langs.stop)}
             </Text>
             <View style={{flex: 1}}>
               <Text style={styles.titleMusic} numberOfLines={1}>
-                {speaker.player.Title == "Unknown" ? "No song" : speaker.player.Title}
+                {speaker.player.Title == "Unknown" ? "No song" : Utf8ArrayToStr(speaker.player.Title)}
               </Text>
             </View>
           </View>
@@ -197,8 +219,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   imgaeStateMusic: {
-    width: 24,
-    height: 24,
+    width: 22,
+    height: 22,
     backgroundColor: 'transparent'
   },
   status: {
@@ -238,7 +260,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     right: 5,
-    bottom: 8
+    bottom: 8,
+    backgroundColor: 'rgba(43, 56, 72, 0.5)'
   },
   textLeftRight: {
     fontSize: 15,
@@ -269,6 +292,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
+  console.log(state)
   return {
     state
   }

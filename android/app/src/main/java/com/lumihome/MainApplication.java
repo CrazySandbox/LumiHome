@@ -3,6 +3,8 @@ package com.lumihome;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.remobile.toast.RCTToastPackage;
 import com.reactlibrary.RNReactNativeUpnpPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.babisoft.ReactNativeLocalization.ReactNativeLocalizationPackage;
@@ -27,6 +29,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new VectorIconsPackage(),
+            new RCTToastPackage(),
             new RNReactNativeUpnpPackage(),
             new LinearGradientPackage(),
             new ReactNativeLocalizationPackage(),

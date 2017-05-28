@@ -11,7 +11,7 @@ import {
   FINSH_GET_SPEAKER
 } from '../types';
 
-const TIME_UPDATE = 20000;
+const TIME_UPDATE = 200000;
 const listIP = [];
 const Data = [];
 var timer = null;

@@ -64,6 +64,7 @@ export const iconSpeaker = {
   volBlack: require('../../imgs/theme1/iconSpeaker/Volum/Black.png'),
   volBlue: require('../../imgs/theme1/iconSpeaker/Volum/Orange.png'),
   muteBlue: require('../../imgs/theme1/iconSpeaker/Mute/Green.png'),
+  add: require('../../imgs/theme1/iconSpeaker/add/add.png'),
 }
 
 export const backGround = {
