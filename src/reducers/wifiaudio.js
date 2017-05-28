@@ -2,13 +2,15 @@ import {
   SEARCH_SPEAKER,
   FINISH_LOAD_SPEAKER,
   SEARCH_SPEAKER_LOADING,
-  FINSH_GET_SPEAKER
+  FINSH_GET_SPEAKER,
+  GESTDATASUCCESS,
+  FINISH_LOAD_INFO_SPEAKER
 } from '../actions/types';
 
 INITIAL = {
   listSpeaker: {},
   loading: false,
-  ip: {}
+  ip: [],
 }
 
 export default (state = INITIAL, action) => {

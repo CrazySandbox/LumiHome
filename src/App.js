@@ -45,11 +45,13 @@ class App extends Component {
     let { initInstall, loading } = this.state
     if(initInstall == 0 || loading) {
       return (
-        <Body>
-          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} >
-            <Loading />
-          </View>
-        </Body>
+        <View style={{backgroundColor: 'black'}}>
+          <Body>
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent'}} >
+              <Loading />
+            </View>
+          </Body>
+        </View>
       )
     } else {
       return (

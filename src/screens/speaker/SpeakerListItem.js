@@ -97,9 +97,11 @@ class SpeakerListItem extends Component {
             <Text style={styles.status} >
               {speaker.player.status == "stop" ? "Stop" : "Pause"}
             </Text>
-            <Text style={styles.titleMusic} numberOfLines={1}>
-              {speaker.player.Title == "Unknown" ? "No song" : speaker.player.Title}
-            </Text>
+            <View style={{flex: 1}}>
+              <Text style={styles.titleMusic} numberOfLines={1}>
+                {speaker.player.Title == "Unknown" ? "No song" : speaker.player.Title}
+              </Text>
+            </View>
           </View>
           <View style={styles.bottomView}>
             <TouchableOpacity
@@ -141,6 +143,7 @@ const styles = StyleSheet.create({
   container: {
     height: 110,
     width: width-16,
+    flex: 1,
     flexDirection: 'row',
     backgroundColor: 'rgba(43, 56, 72, 0.3)',
     marginHorizontal: 8,
@@ -160,7 +163,8 @@ const styles = StyleSheet.create({
   },
   rightContainer: {
     flex: 1,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    paddingRight: 3
   },
   header: {
     flexDirection: 'row',

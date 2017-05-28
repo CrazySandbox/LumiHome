@@ -29,7 +29,7 @@ class Speaker extends Component {
   }
 
   componentWillMount() {
-    this.props.listenUPNPSpeaker(false)
+    this.props.listenUPNPSpeaker(this.state.loading)
   }
 
   componentDidMount() {
@@ -121,7 +121,6 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  console.log(state.wifiaudio)
   return {
     data: state.wifiaudio
   }
