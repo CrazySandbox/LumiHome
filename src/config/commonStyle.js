@@ -22,6 +22,11 @@ const commonStyle = StyleSheet.create({
   navRightTextButton: {
     backgroundColor: 'transparent',
     color: 'white',
+  },
+  leftIconBar: {
+    marginLeft: 13,
+    marginTop: 10,
+    position: 'absolute'
   }
 });
 

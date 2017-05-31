@@ -13,6 +13,7 @@ import {
   LOADFINISHDATA,
   RESETFACTORY,
   GOHOME,
+  BACK_LOGIN
 } from '../actions/types';
 
 const INITIAL = {
@@ -31,6 +32,7 @@ const INITIAL = {
   loadingData: true,
   keyAuthen: '',
   listhome: {},
+  checklogin: true,
 };
 
 export default (state = INITIAL, action) => {
@@ -40,12 +42,14 @@ export default (state = INITIAL, action) => {
         ...state,
         isConnect: true,
         connectServer: true,
+        checklogin: true,
       }
     case DISCONNECTED:
       return {
         ...state,
         isConnect: false,
         connectServer: false,
+        checklogin: true,
       }
     case LOGINSUCCESS:
       return {
@@ -58,7 +62,8 @@ export default (state = INITIAL, action) => {
         user: action.payload.user,
         pass: action.payload.pass,
         listhome: action.listhome.home,
-        keyAuthen: action.listhome.cmdkey
+        keyAuthen: action.listhome.cmdkey,
+        checklogin: true,
       }
       case LOGINFAIL:
         return {
@@ -66,6 +71,12 @@ export default (state = INITIAL, action) => {
           authen: false,
           isConnect: false,
           connectServer: false,
+          checklogin: true,
+        }
+      case BACK_LOGIN:
+        return {
+          ...state,
+          checklogin: false,
         }
       case GETLANGUAGE:
         return {
@@ -127,6 +138,7 @@ export default (state = INITIAL, action) => {
           loadingData: true,
           keyAuthen: '',
           listhome: {},
+          checklogin: true,
         }
       case GOHOME:
         return {

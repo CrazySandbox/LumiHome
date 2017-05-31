@@ -18,6 +18,7 @@ export const SAVEDATA = "SAVEDATA";
 export const GOHOME = "GOHOME";
 export const LOGOUT = "LOGOUT";
 export const RESETFACTORY = "RESETFACTORY";
+export const BACK_LOGIN = "BACK_LOGIN";
 
 // get data from store
 export const GETLANGUAGE = "GETLANGUAGE";
@@ -38,3 +39,4 @@ export const TIMER_STOP = "TIMER_STOP";
 export const FINSH_GET_SPEAKER = "FINSH_GET_SPEAKER";
 export const GESTDATASUCCESS = "GESTDATASUCCESS";
 export const FINISH_LOAD_INFO_SPEAKER = "FINISH_LOAD_INFO_SPEAKER";
+export const UPDATE_SPEAKER = "UPDATE_SPEAKER";

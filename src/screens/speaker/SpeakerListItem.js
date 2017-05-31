@@ -16,7 +16,7 @@ var { width, height} = Dimensions.get('window');
 var Slider = require('react-native-slider');
 import WifiAudio from '../../actions/speaker/wifiaudio';
 import { connect } from 'react-redux';
-import { listenUPNPSpeaker } from '../../actions';
+import { upDateSpeaker } from '../../actions';
 import Toast from '@remobile/react-native-toast';
 import { Utf8ArrayToStr } from '../../actions/speaker/convertData';
 
@@ -24,33 +24,44 @@ class SpeakerListItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: parseInt(this.props.speaker.player.vol),
+      speaker: this.props.speaker,
       ismute: 0,
+      disabled: false,
+      value: parseInt(this.props.speaker.player.vol)
+    }
+  }
+
+  componentDidMount() {
+    this.props.upDateSpeaker(this.state.speaker.ip, this.props.dataSpeaker)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(this.state.speaker.ip !== nextProps.speaker.ip) {
+      this.setState({
+        speaker: nextProps.speaker
+      })
+    }
+    console.log('state', this.state.speaker.player)
+    console.log('nextProps', nextProps.speaker.player)
+    if(this.state.speaker.player !== nextProps.speaker.player) {
+      console.log('setState', nextProps.speaker.player)
+      this.setState({
+        speaker: nextProps.speaker
+      })
     }
   }
 
   onSetVol = () => {
-    WifiAudio.setVol(this.props.speaker.apcli0, this.state.value, (json) => {
+    WifiAudio.setVol(this.state.speaker.ip, this.state.value, (json) => {
       Toast.showShortCenter('Set volume ' + this.state.value);
     });
-    WifiAudio.setVol(this.props.speaker.eth2, this.state.value, (json) => {
-      Toast.showShortCenter('Set volume ' + this.state.value);
-    });
-    this.props.listenUPNPSpeaker();
   }
 
   onSetMute() {
     this.setState({
       ismute: !this.state.ismute
     })
-    WifiAudio.mute(this.props.speaker.apcli0, this.state.ismute);
-    WifiAudio.mute(this.props.speaker.eth2, this.state.ismute);
-    this.props.listenUPNPSpeaker()
-    if(this.state.ismute) {
-      this.setState({
-        value: 0
-      })
-    }
+    WifiAudio.mute(this.state.speaker.ip, this.state.ismute);
   }
 
   onSetChannel() {
@@ -59,10 +70,9 @@ class SpeakerListItem extends Component {
     {
       channel = 0
     }
-    WifiAudio.setChannel(this.props.speaker.apcli0, this.props.speaker.player.type, channel, (json)=>{
+    WifiAudio.setChannel(this.state.speaker.ip, this.state.speaker.player.type, channel, (json)=>{
 
     })
-
   }
 
   render() {
@@ -77,7 +87,7 @@ class SpeakerListItem extends Component {
           onPress={this.onSetChannel.bind(this)}
         >
           <Text style={styles.textLeftRight}>
-            {speaker.player.ch == "0" ? "LR" : speaker.player.ch == "1" ? "L" : "R"}
+            {this.state.speaker.player.ch == "0" ? "LR" : this.state.speaker.player.ch == "1" ? "L" : "R"}
           </Text>
         </TouchableOpacity>
       )
@@ -97,7 +107,7 @@ class SpeakerListItem extends Component {
         <View style={styles.rightContainer}>
           <View style={styles.header}>
             <Text style={styles.title}>
-              {speaker.DeviceName}
+              {speaker.device.DeviceName}
             </Text>
             <TouchableOpacity
               style={styles.iconSetting}
@@ -138,18 +148,21 @@ class SpeakerListItem extends Component {
             </TouchableOpacity>
             <Slider
               value={this.state.value}
-              onValueChange={(value) => this.setState({value})}
+              onValueChange={(value) => this.setState({
+                value: value
+              })}
               style={styles.slider}
               minimumValue={0}
               maximumValue={100}
               step={1}
+              disabled={this.state.disabled}
               trackStyle={styles.trackSlider}
               thumbStyle={styles.thumbSlider}
               minimumTrackTintColor="#19c1ff"
               maximumTrackTintColor="#7e92a8"
               thumbTintColor="#19c1ff"
               thumbTouchSize={{width: 30, height: 30}}
-              onSlidingComplete={this.onSetVol.bind(this)}
+              onSlidingComplete={(value) => this.onSetVol(value)}
             />
             <View style={styles.leftRight}>
                 {leftRightChannel}
@@ -272,30 +285,30 @@ const styles = StyleSheet.create({
   },
   slider: {
     width: width - 180,
-    height: 30,
     marginLeft: 5,
+    justifyContent: 'center',
   },
   trackSlider: {
     height: 2,
-    backgroundColor: '#7e92a8'
+    backgroundColor: '#7e92a8',
+    borderRadius: 1
   },
   thumbSlider: {
     width: 10,
     height: 10,
     borderRadius: 10 / 2,
     shadowColor: '#31a4db',
-    shadowOffset: {width: 0, height: 0},
+    shadowOffset: {width: 0, height: 2},
     shadowRadius: 2,
-    shadowOpacity: 1,
+    shadowOpacity: 0.35,
     backgroundColor: '#19c1ff',
   }
 });
 
 const mapStateToProps = (state) => {
-  console.log(state)
   return {
-    state
+    dataSpeaker: state.wifiaudio.listSpeaker,
   }
 }
 
-export default connect(mapStateToProps, {listenUPNPSpeaker})(SpeakerListItem);
+export default connect(mapStateToProps, { upDateSpeaker })(SpeakerListItem);

@@ -295,12 +295,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   view: {
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    backgroundColor: 'rgba(43, 56, 72, 0.3)',
   },
   viewFocus: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(43, 56, 72, 0.5)',
     borderWidth: 0.3,
-    borderColor: 'grey',
+    borderColor: '#19c1ff',
   },
   viewError: {
     borderWidth: 0.5,

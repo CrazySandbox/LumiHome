@@ -7,7 +7,8 @@ import {
   Platform,
   TouchableOpacity,
   FlatList,
-  TouchableHighlight
+  TouchableHighlight,
+  Dimensions,
 } from 'react-native';
 
 import Body from '../../config/body';
@@ -21,6 +22,7 @@ import SocketClient from '../../config/socket/socket-client';
 import { goHome } from '../../actions';
 
 const PLACE = 'listhome/ListHome.js';
+const { width, height } = Dimensions.get('window');
 
 class ListHome extends Component {
   constructor(props) {
@@ -119,6 +121,18 @@ class ListHome extends Component {
       </LinearGradient>
     )
 
+    // const navBar = (
+    //   <View style={{backgroundColor: 'red'}}>
+    //       <TouchableOpacity style={commonStyle.leftIconBar} onPress={() => this.props.toggleSideMenu()}>
+    //         <Image source={imgs.iconSetting.hidemenu} style={commonStyle.imageLeftNav} />
+    //       </TouchableOpacity>
+    //       <Text style={commonStyle.navTitle}>
+    //         {langs.listhome}
+    //       </Text>
+    //       <Text />
+    //   </View>
+    // )
+
     const listHome = (
       <FlatList
         scrollEnabled={!this.state.isSwiping}
@@ -152,7 +166,7 @@ const styles = StyleSheet.create({
     height: 110,
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(43, 56, 72, 0.3)',
     marginBottom: 1,
   },
   image: {
@@ -171,7 +185,7 @@ const styles = StyleSheet.create({
   homename: {
     fontSize: 17,
     fontWeight: '500',
-    color: 'white',
+    color: '#19c1ff',
     backgroundColor: 'transparent',
     textAlign: 'left',
   },

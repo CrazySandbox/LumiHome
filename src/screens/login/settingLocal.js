@@ -3,7 +3,8 @@ import {
   Text,
   View,
   StyleSheet,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  TouchableOpacity,
 } from 'react-native';
 
 import { Actions } from 'react-native-router-flux';
@@ -11,6 +12,8 @@ import Body from '../../config/body';
 import Input from '../../components/base';
 import Button from '../../components/base/button';
 import langs from '../../config/langs';
+import { backLogin } from '../../actions';
+import { connect } from 'react-redux';
 
 class SettingLocal extends Component {
 
@@ -23,7 +26,11 @@ class SettingLocal extends Component {
   }
 
   onSave() {
-    Actions.login({type: 'reset'})
+    this.props.backLogin()
+  }
+
+  backLogin() {
+    this.props.backLogin()
   }
 
   focusNextField = (nextField) => {
@@ -60,7 +67,17 @@ class SettingLocal extends Component {
               gradient
               title={langs.save}
               onPress={this.onSave.bind(this)}
+              style={styles.button}
             />
+            <TouchableOpacity
+              onPress={this.backLogin.bind(this)}
+            >
+              <View style={styles.titleBackLogin}>
+                <Text style={styles.textBackLogin}>
+                  {langs.backlogin}
+                </Text>
+              </View>
+            </TouchableOpacity>
           </View>
         </TouchableWithoutFeedback>
         <View style={styles.footer} >
@@ -84,6 +101,9 @@ const styles = StyleSheet.create({
     color: 'white',
     backgroundColor: 'transparent'
   },
+  button: {
+    marginTop: 8,
+  },
   footer: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -99,6 +119,23 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     opacity: 0.6
   },
+  titleBackLogin: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textBackLogin: {
+    color: 'white',
+    fontSize: 15,
+    marginTop: 13,
+    backgroundColor: 'transparent',
+    opacity: 0.8
+  }
 });
 
-export default SettingLocal;
+const mapStateToProps = (state) => {
+  return {
+    state
+  }
+}
+
+export default connect(mapStateToProps, { backLogin })(SettingLocal);

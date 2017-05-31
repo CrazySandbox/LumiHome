@@ -139,9 +139,6 @@ class RouterComponent extends Component {
                     key="room"
                     component={Room}
                     title={langs.room}
-                    onRight={() => alert('Right button')}
-                    rightTitle="Right"
-                    rightButtonTextStyle={commonStyle.navRightTextButton}
                   />
                 </Scene>
                 <Scene
@@ -156,9 +153,6 @@ class RouterComponent extends Component {
                     key="scenes"
                     component={Scenes}
                     title={langs.scene}
-                    onRight={() => alert('Right button')}
-                    rightTitle="Right"
-                    rightButtonTextStyle={commonStyle.navRightTextButton}
                   />
                 </Scene>
                 <Scene
@@ -173,9 +167,6 @@ class RouterComponent extends Component {
                     key="camera"
                     component={Camera}
                     title={langs.camera}
-                    onRight={() => alert('Right button')}
-                    rightTitle="Right"
-                    rightButtonTextStyle={commonStyle.navRightTextButton}
                   />
                 </Scene>
                 <Scene
@@ -190,9 +181,6 @@ class RouterComponent extends Component {
                     key="security"
                     component={Security}
                     title={langs.security}
-                    onRight={() => alert('Right button')}
-                    rightTitle="Right"
-                    rightButtonTextStyle={commonStyle.navRightTextButton}
                   />
                 </Scene>
                 <Scene
@@ -207,9 +195,6 @@ class RouterComponent extends Component {
                     key="rule"
                     component={Rule}
                     title={langs.rule}
-                    onRight={() => alert('Right button')}
-                    rightTitle="Right"
-                    rightButtonTextStyle={commonStyle.navRightTextButton}
                   />
                 </Scene>
                 <Scene
@@ -220,7 +205,7 @@ class RouterComponent extends Component {
                   iconInActive={imgs.iconTabBar.speaker.inactive}
                   titleStyle={commonStyle.navTitle}
                 >
-                  <Scene
+                  <Scene initial
                     key="speaker"
                     component={Speaker}
                     title={langs.speaker}

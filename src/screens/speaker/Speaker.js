@@ -12,7 +12,8 @@ import Loading from '../../components/base/loading';
 import {
   listenUPNPSpeaker,
   upDateSpeaker,
-  clearIntervalSpeaker
+  clearIntervalSpeaker,
+  searchUPNP
 } from '../../actions'
 import { connect } from 'react-redux';
 import SpeakerListItem from './SpeakerListItem';
@@ -24,10 +25,9 @@ class Speaker extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      listSpeaker: this.props.data.listSpeaker,
-      loading: true,
-      ip: this.props.data.ip,
-      refreshing: false
+       listSpeaker: [],
+       loading: true,
+       refreshing: false
     }
   }
 
@@ -41,27 +41,28 @@ class Speaker extends Component {
   }
 
   componentDidMount() {
-    this.props.upDateSpeaker()
+    // this.props.upDateSpeaker()
+    // if(!this.timeoutSearch) {
+    //   return
+    // } else {
+      this.timeoutSearch = null
+      this.timeoutSearch = setTimeout(() => {
+        this.setState({
+        loading: false
+        })
+       }, 12000);
+    // }
   }
 
   componentWillUnmount() {
-    this.props.clearIntervalSpeaker()
-    this.props.upDateSpeaker()
-		if(this.timeoutSearch)
-		{
-			clearTimeout(this.timeoutSearch)
-			this.timeoutSearch = null
-		}
+
   }
 
   componentWillReceiveProps(nextProps) {
-    let seft = this
-    if(this.state.ip !== nextProps.data.ip) {
+    console.log('nextProps',nextProps)
+    if(nextProps.data.length > 0) {
       this.setState({
-        listSpeaker: nextProps.data.listSpeaker,
-        loading: nextProps.data.loading,
-        ip: nextProps.data.ip,
-        refreshing: false
+        loading: nextProps.loading
       })
     }
   }
@@ -93,8 +94,8 @@ class Speaker extends Component {
     const { listSpeaker, loading } = this.state
     const ListSpeaker = (
         <FlatList
-          data={listSpeaker}
-          keyExtractor={item => item.MAC}
+          data={this.props.data}
+          keyExtractor={item => item.device.MAC}
           renderItem={this._renderItem}
           onRefresh={this.onRefresh.bind(this)}
           refreshing={this.state.refreshing}
@@ -126,7 +127,7 @@ class Speaker extends Component {
       return (
         <Body>
           {
-            listSpeaker.length > 0 ? ListSpeaker : NoSpeaker
+            this.props.data.length > 0 ? ListSpeaker : NoSpeaker
           }
         </Body>
       );
@@ -153,9 +154,10 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
+  //console.log('data = ',state.wifiaudio)
   return {
-    data: state.wifiaudio
+    data: state.wifiaudio.listSpeaker,
   }
 }
 
-export default connect(mapStateToProps, { listenUPNPSpeaker, upDateSpeaker, clearIntervalSpeaker })(Speaker);
+export default connect(mapStateToProps, { listenUPNPSpeaker, upDateSpeaker, clearIntervalSpeaker, searchUPNP })(Speaker);

@@ -2,9 +2,11 @@
 // Color default ['#136a8a', '#136a8a', '#267871']
 
 import React from 'react';
-import { StyleSheet, Image, View } from 'react-native';
+import { StyleSheet, Image, View, Dimensions } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import imgs from './theme';
+
+const { width, height } = Dimensions.get('window');
 
 const Body1 = ({children}) => {
   return (
@@ -20,18 +22,25 @@ const Body1 = ({children}) => {
 
 const Body = ({children}) => {
   return (
-    <Image
-      style={styles.containerImage}
-      source={imgs.backGround.background}
-    >
-      <View style={styles.body}>
-        {children}
-      </View>
-    </Image>
+    <View style={styles.bo}>
+      <Image
+        style={styles.containerImage}
+        source={imgs.backGround.background}
+      >
+        <View style={styles.body}>
+          {children}
+        </View>
+      </Image>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  bo: {
+    flex: 1,
+    width: width,
+    backgroundColor: '#000'
+  },
   container: {
     flex: 1,
   },
@@ -45,7 +54,8 @@ const styles = StyleSheet.create({
   },
   body: {
     backgroundColor: 'transparent',
-    flex: 1
+    flex: 1,
+    width: width,
   }
 });
 

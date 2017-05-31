@@ -4,13 +4,13 @@ import {
   SEARCH_SPEAKER_LOADING,
   FINSH_GET_SPEAKER,
   GESTDATASUCCESS,
-  FINISH_LOAD_INFO_SPEAKER
+  FINISH_LOAD_INFO_SPEAKER,
+  UPDATE_SPEAKER
 } from '../actions/types';
 
 INITIAL = {
-  listSpeaker: {},
+  listSpeaker: [],
   loading: false,
-  ip: [],
 }
 
 export default (state = INITIAL, action) => {
@@ -35,6 +35,11 @@ export default (state = INITIAL, action) => {
       return {
         ...state,
         ip: action.payload
+      }
+    case UPDATE_SPEAKER:
+      return {
+        ...state,
+        listenSpeaker: action.payload
       }
     default:
       return state

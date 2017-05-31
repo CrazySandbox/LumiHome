@@ -66,9 +66,9 @@ class Button extends Component {
 Button.defaultProps = {
   gradient: false,
   start: {x: 1, y: 0},
-  end: {x: 0, y: 0.5},
+  end: {x: 0, y: 0},
   locations: [0,0.5,1],
-  colors: ['#192f6a', '#3b5998', '#192f6a']
+  colors: ['#19c1fa', '#19c1ff', '#19c1fa']
 }
 
 const styles = StyleSheet.create({

@@ -34,6 +34,7 @@ let langs = new LocalizedString({
     port: 'PORT',
     menu: 'MENU',
     listhomezero: 'No home',
+    backlogin: 'Back to Login',
 
     //*******Title navBar
     registerNav: 'Register',
@@ -53,7 +54,7 @@ let langs = new LocalizedString({
     noSpeaker: 'Nothing here!',
     playing: 'Playing:',
     pause: 'Pause:',
-    stop: 'Stop',
+    stop: 'Stop:',
 
   },
   vn: {
@@ -87,6 +88,7 @@ let langs = new LocalizedString({
     port: 'Cổng nội mạng',
     menu: 'MENU',
     listhomezero: 'Không có nhà nào ở đây',
+    backlogin: 'Quay lại Login',
 
     //*******Title navBar
     registerNav: 'Tạo tài khoản',
@@ -106,7 +108,7 @@ let langs = new LocalizedString({
     noSpeaker: 'Không có speaker nào ở đây!',
     playing: 'Playing:',
     pause: 'Pause:',
-    stop: 'Stop',
+    stop: 'Stop:',
   }
 });
 

@@ -30,7 +30,7 @@ class LoginForm extends Component {
 
   componentWillMount() {
     let DataLogin = this.state
-    if(this.props.DataReducer.autoLogin == "1") {
+    if(this.props.DataReducer.autoLogin == "1" && this.props.DataReducer.checklogin == true) {
       this.props.LoginAction(DataLogin);
     }
   }
@@ -38,6 +38,7 @@ class LoginForm extends Component {
   doLogin() {
     let DataLogin = this.state
     this.props.LoginAction(DataLogin)
+    //Actions.menuhome({type: 'reset'})
   }
 
   userChangeText(value) {
@@ -102,9 +103,11 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 100,
     alignItems: 'center',
+    backgroundColor: 'transparent'
   },
   btnLogin: {
-    marginBottom: 8
+    marginBottom: 8,
+    marginTop: 5
   },
 });
 

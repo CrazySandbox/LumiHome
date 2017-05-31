@@ -100,7 +100,8 @@ const styles = StyleSheet.create({
   forgotText: {
     color: 'white',
     fontSize: 13,
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
+    opacity: 0.8
   },
   footer: {
     justifyContent: 'center',
