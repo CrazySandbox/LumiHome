@@ -36,11 +36,11 @@ const styles = StyleSheet.create({
 
   },
   imageIcon: {
-    width: 20,
-    height: 20
+    width: 26,
+    height: 26
   },
   textIcon: {
-    marginTop: 3,
+    marginTop: 4,
     fontWeight: '500',
     fontSize: 10
   }

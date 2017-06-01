@@ -15,45 +15,88 @@ import imgs from '../../config/theme';
 var { width, height} = Dimensions.get('window');
 var Slider = require('react-native-slider');
 import WifiAudio from '../../actions/speaker/wifiaudio';
-import { connect } from 'react-redux';
-import { upDateSpeaker } from '../../actions';
 import Toast from '@remobile/react-native-toast';
 import { Utf8ArrayToStr } from '../../actions/speaker/convertData';
+
+const TIME_UPDATE = 2000;
 
 class SpeakerListItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      speaker: this.props.speaker,
+      ip: this.props.ip,
+      speaker: {},
       ismute: 0,
       disabled: false,
-      value: parseInt(this.props.speaker.player.vol)
     }
+    this.intervalUpdate = null
+  }
+
+  componentWillMount() {
+    WifiAudio.getStatus(this.props.ip, (json) => {
+      let speaker = this.state.speaker
+      speaker.ip = this.state.ip
+      speaker.device = json
+
+      this.setState({
+        speaker: speaker
+      })
+    })
   }
 
   componentDidMount() {
-    this.props.upDateSpeaker(this.state.speaker.ip, this.props.dataSpeaker)
+    this.update();
+    this.reg();
   }
+
+  reg() {
+    if(this.intervalUpdate) {
+      clearInterval(this.intervalUpdate)
+    }
+
+    this.intervalUpdate = setInterval(this.update.bind(this), TIME_UPDATE);
+  }
+
+  update() {
+		WifiAudio.getPlayerStatus(this.state.ip, (json2) => {
+			if(!this.intervalUpdate)
+				return;
+			let speaker = this.state.speaker
+			speaker.player = json2;
+			this.setState({
+				speaker : speaker
+			})
+		});
+	}
 
   componentWillReceiveProps(nextProps) {
-    if(this.state.speaker.ip !== nextProps.speaker.ip) {
+    if(this.props.ip != nextProps.ip) {
       this.setState({
-        speaker: nextProps.speaker
-      })
-    }
-    console.log('state', this.state.speaker.player)
-    console.log('nextProps', nextProps.speaker.player)
-    if(this.state.speaker.player !== nextProps.speaker.player) {
-      console.log('setState', nextProps.speaker.player)
-      this.setState({
-        speaker: nextProps.speaker
+				ip : nextProps.ip
+			})
+
+      WifiAudio.getStatus(nextProps.ip, (json) => {
+        let speaker = this.state.speaker
+        speaker.ip = this.state.ip
+        speaker.device = json
+
+        this.setState({
+          speaker: speaker
+        })
       })
     }
   }
 
-  onSetVol = () => {
-    WifiAudio.setVol(this.state.speaker.ip, this.state.value, (json) => {
-      Toast.showShortCenter('Set volume ' + this.state.value);
+  componentWillUnmount() {
+    if(this.intervalUpdate) {
+			clearInterval(this.intervalUpdate)
+		}
+		this.intervalUpdate = null
+	}
+
+  onSetVol = (value) => {
+    WifiAudio.setVol(this.state.speaker.ip, value, (json) => {
+      Toast.showShortCenter('Set volume ' + parseInt(value));
     });
   }
 
@@ -76,10 +119,13 @@ class SpeakerListItem extends Component {
   }
 
   render() {
-    const {
-      onPressItem,
-      speaker
-    } = this.props
+    console.log('render', this.state.speaker)
+    let {speaker} = this.state
+
+    if(!speaker.player || !speaker.device)
+		{
+			return null
+		}
 
     const leftRightChannel =
       (
@@ -87,15 +133,14 @@ class SpeakerListItem extends Component {
           onPress={this.onSetChannel.bind(this)}
         >
           <Text style={styles.textLeftRight}>
-            {this.state.speaker.player.ch == "0" ? "LR" : this.state.speaker.player.ch == "1" ? "L" : "R"}
+            {speaker.player.ch == "0" ? "LR" : speaker.player.ch == "1" ? "L" : "R"}
           </Text>
         </TouchableOpacity>
       )
 
-
     return (
       <TouchableOpacity
-        onPress={onPressItem}
+        onPress={() => {}}
         style={styles.container}
       >
         <View style={styles.imgage}>
@@ -147,10 +192,7 @@ class SpeakerListItem extends Component {
               />
             </TouchableOpacity>
             <Slider
-              value={this.state.value}
-              onValueChange={(value) => this.setState({
-                value: value
-              })}
+              value={parseInt(speaker.player.vol)}
               style={styles.slider}
               minimumValue={0}
               maximumValue={100}
@@ -305,10 +347,4 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = (state) => {
-  return {
-    dataSpeaker: state.wifiaudio.listSpeaker,
-  }
-}
-
-export default connect(mapStateToProps, { upDateSpeaker })(SpeakerListItem);
+export default SpeakerListItem;

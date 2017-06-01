@@ -6,15 +6,9 @@ import {
   SEARCH_SPEAKER,
   FINISH_LOAD_SPEAKER,
   SEARCH_SPEAKER_LOADING,
-  TIMER_START,
-  TIMER_STOP,
-  FINSH_GET_SPEAKER,
-  UPDATE_SPEAKER
 } from '../types';
 
-const TIME_UPDATE = 2000;
-const listSpeaker = [];
-var timer = null;
+const listIP = [];
 
 export const searchUPNP = (loading) => {
   return (dispatch) => {
@@ -36,6 +30,7 @@ export const searchSpeaker = (loading) => {
 }
 
 export const listenUPNPSpeaker = (loading) => {
+  listIP = [];
   return (dispatch) => {
     dispatch(searchUPNP(loading))
     UPNP.on((dev) => {
@@ -46,41 +41,18 @@ export const listenUPNPSpeaker = (loading) => {
 }
 
 export const listenSpeaker = (ip) => {
-  listSpeaker = [];
   return (dispatch) => {
     WifiAudio.getStatus(ip, (json) => {
-      var o = {};
-      if(json.MAC) {
-        if(listSpeaker == "") {
-          o.ip = ip
-          o.device = json
-          listSpeaker.push(o)
+        if(listIP == "") {
+          listIP.push(ip)
         }
-        var check2 = checkData2(listSpeaker, ip);
-        if(!check2) {
-          o.ip = ip;
-          o.device = json
-          listSpeaker.push(o)
+        var check = checkData(listIP, ip);
+        if(!check) {
+          listIP.push(ip)
         }
-        dispatch(getPlayerStatus(listSpeaker))
-      }
+        listIP.sort()
+        dispatch(finish(listIP))
     })
-  }
-}
-
-export const getPlayerStatus = (listSpeaker) => {
-  return (dispatch) => {
-    for(var i = 0; i< listSpeaker.length; i++) {
-      WifiAudio.getPlayerStatus(listSpeaker[i].ip, (json)=>{
-        dispatch(getPlayerStatusFinish(json, listSpeaker, i))
-      })
-  }}
-}
-
-export const getPlayerStatusFinish = (json, listSpeaker, i) => {
-  return (dispatch) => {
-    listSpeaker[i-1].player = json
-    dispatch(finish(listSpeaker))
   }
 }
 
@@ -91,60 +63,10 @@ export const finish = (Data) => {
   }
 }
 
-export const upDateSpeaker = (ip, speaker) => {
-  var loading = false
-  return (dispatch) => {
-    clearInterval(timer);
-    timer = setInterval(() => dispatch(updatePlayerStatus(ip, speaker)), TIME_UPDATE)
-      //dispatch({type: TIMER_START})
-      dispatch(updatePlayerStatus(ip, speaker))
-  }
-}
-
-export const updatePlayerStatus = (ip, speaker) => {
-  return (dispatch) => {
-    WifiAudio.getPlayerStatus(ip, (json) => {
-      dispatch(updatePlayerStatusFinish(ip, json, speaker))
-    })
-  }
-}
-
-export const updatePlayerStatusFinish = (ip, json, speaker) => {
-  console.log('ip = ', ip)
-  for(var i=0; i<speaker.length; i++) {
-    if(speaker[i].ip == ip) {
-      speaker[i].player = json
-      console.log('finish', speaker[i].player)
-      return {
-        type: UPDATE_SPEAKER,
-        payload: speaker,
-      }
-    }
-  }
-}
-
-export const clearIntervalSpeaker = () => {
-  clearInterval(timer);
-  timer = null;
-  return {
-    type: TIMER_STOP
-  }
-}
-
 export const checkData = (array , b) => {
   let check = false
   for(var i = 0; i < array.length; i ++) {
-    if(array[i].device.MAC == b.MAC) {
-      check = true
-    }
-  }
-  return check;
-}
-
-export const checkData2 = (array , b) => {
-  let check = false
-  for(var i = 0; i < array.length; i ++) {
-    if(array[i].ip == b) {
+    if(array[i] == b) {
       check = true
     }
   }
