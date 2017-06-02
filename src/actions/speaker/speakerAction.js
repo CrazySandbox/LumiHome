@@ -6,6 +6,8 @@ import {
   SEARCH_SPEAKER,
   FINISH_LOAD_SPEAKER,
   SEARCH_SPEAKER_LOADING,
+  GET_MASTER_SLAVE,
+  DEL_MASTER_SLAVE
 } from '../types';
 
 const listIP = [];
@@ -60,6 +62,22 @@ export const finish = (Data) => {
   return {
     type: FINISH_LOAD_SPEAKER,
     payload: Data,
+  }
+}
+
+export const getMasterSlave = (ip, data) => {
+  let listSlave = {};
+  listSlave.ip = ip;
+  listSlave.slave_list = data;
+  return {
+    type: GET_MASTER_SLAVE,
+    payload: listSlave,
+  }
+}
+
+export const delMasterSlave = () => {
+  return {
+    type: DEL_MASTER_SLAVE
   }
 }
 

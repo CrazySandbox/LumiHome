@@ -10,8 +10,7 @@ import Button from '../../components/base/button';
 import langs from '../../config/langs';
 import Loading from '../../components/base/loading';
 import {
-  listenUPNPSpeaker,
-  searchUPNP
+  listenUPNPSpeaker
 } from '../../actions'
 import { connect } from 'react-redux';
 import SpeakerListItem from './SpeakerListItem';
@@ -156,4 +155,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { listenUPNPSpeaker, searchUPNP })(Speaker);
+export default connect(mapStateToProps, { listenUPNPSpeaker })(Speaker);

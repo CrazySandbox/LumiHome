@@ -55,7 +55,14 @@ let langs = new LocalizedString({
     playing: 'Playing:',
     pause: 'Pause:',
     stop: 'Stop:',
-
+    renameSpeaker: 'Rename',
+    joinSpeaker: 'Jonin Speaker',
+    unJoinSpeaker: 'Unjoin Speaker',
+    infoSpeaker: 'Speaker Info',
+    alarmSpeaker: 'Alarm Clock',
+    sleepTimerSpeaker: 'Sleep Timer',
+    backSpeaker: 'Back',
+    closedTimer: 'OK',
   },
   vn: {
     //****Tabbar
@@ -109,6 +116,14 @@ let langs = new LocalizedString({
     playing: 'Playing:',
     pause: 'Pause:',
     stop: 'Stop:',
+    renameSpeaker: 'Đổi tên',
+    joinSpeaker: 'Join Speaker',
+    unJoinSpeaker: 'Unjoin Speaker',
+    infoSpeaker: 'Thông tin Speaker',
+    alarmSpeaker: 'Báo thức',
+    sleepTimerSpeaker: 'Hẹn giờ',
+    backSpeaker: 'Quay lại',
+    closedTimer: 'Xác nhận',
   }
 });
 

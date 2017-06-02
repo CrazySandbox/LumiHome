@@ -65,6 +65,21 @@ export const iconSpeaker = {
   volBlue: require('../../imgs/theme1/iconSpeaker/Volum/Orange.png'),
   muteBlue: require('../../imgs/theme1/iconSpeaker/Mute/Green.png'),
   add: require('../../imgs/theme1/iconSpeaker/add/add.png'),
+  thumb: require('../../imgs/theme1/iconSpeaker/thumb/thumb.png'),
+  alarm: require('../../imgs/theme1/iconSpeaker/alarm/clock.png'),
+  info: require('../../imgs/theme1/iconSpeaker/info/Shape.png'),
+  rename: require('../../imgs/theme1/iconSpeaker/rename/Green.png'),
+  join: require('../../imgs/theme1/iconSpeaker/joinspeaker/Green.png'),
+  timer: require('../../imgs/theme1/iconSpeaker/timer/Green.png'),
+  closed: require('../../imgs/theme1/iconSpeaker/closed/closed.png'),
+}
+
+export const base = {
+  switchOn: require('../../imgs/theme1/base/switch/switch_on.png'),
+  switchOff: require('../../imgs/theme1/base/switch/switch_off.png'),
+  down: require('../../imgs/theme1/base/down/Down.png'),
+  right: require('../../imgs/theme1/base/right/Orange.png'),
+  left: require('../../imgs/theme1/base/left/Orange.png'),
 }
 
 export const backGround = {

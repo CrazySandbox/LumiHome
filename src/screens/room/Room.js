@@ -4,14 +4,21 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Image
 } from 'react-native';
 import { connect } from 'react-redux';
 import { ChangeData } from '../../actions';
 import Body from '../../config/body';
 import LinearGradient from 'react-native-linear-gradient';
+import SliderBase from '../../components/base/Slider';
 
 class Room extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: 1
+    }
+  }
+
   onPress = () => {
     this.props.ChangeData();
   }
@@ -30,9 +37,9 @@ class Room extends Component {
     return (
       <Body>
         <View style={styles.container} >
-          <Text style={styles.text}>
-            This is component Room
-          </Text>
+        <SliderBase
+        />
+
         </View>
       </Body>
     );
@@ -43,7 +50,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    //alignItems: 'center'
   },
   text: {
     fontSize: 17,

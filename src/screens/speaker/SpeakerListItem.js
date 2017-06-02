@@ -11,13 +11,16 @@ import {
 } from 'react-native';
 import langs from '../../config/langs';
 import imgs from '../../config/theme';
+import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
+import { getMasterSlave, delMasterSlave } from '../../actions';
 
-var { width, height} = Dimensions.get('window');
-var Slider = require('react-native-slider');
+import SliderBase from '../../components/base/Slider';
 import WifiAudio from '../../actions/speaker/wifiaudio';
 import Toast from '@remobile/react-native-toast';
 import { Utf8ArrayToStr } from '../../actions/speaker/convertData';
 
+var { width, height} = Dimensions.get('window');
 const TIME_UPDATE = 2000;
 
 class SpeakerListItem extends Component {
@@ -28,6 +31,9 @@ class SpeakerListItem extends Component {
       speaker: {},
       ismute: 0,
       disabled: false,
+      isMaster: false,
+      isSlave: false,
+      masterSlave: {}
     }
     this.intervalUpdate = null
   }
@@ -66,6 +72,33 @@ class SpeakerListItem extends Component {
 			this.setState({
 				speaker : speaker
 			})
+
+      WifiAudio.getSlaves(this.state.ip, (json3) => {
+
+        if(json3.slaves > 0) {
+          this.setState({
+            isMaster: true,
+            isSlave: false,
+          })
+          this.props.getMasterSlave(this.state.ip, json3)
+        } else {
+          if(this.state.masterSlave.ip) {
+            for(var i=0; i<this.state.masterSlave.slave_list.slave_list.length; i++) {
+              if(this.state.speaker.device.apcli0 == this.state.masterSlave.slave_list.slave_list[i].ip) {
+                this.setState({
+                  isMaster: false,
+                  isSlave: true
+                })
+              }
+            }
+          } else {
+            this.setState({
+              isMaster: false,
+              isSlave: false
+            })
+          }
+        }
+      })
 		});
 	}
 
@@ -83,6 +116,12 @@ class SpeakerListItem extends Component {
         this.setState({
           speaker: speaker
         })
+      })
+    }
+
+    if(this.state.masterSlave !== nextProps.masterSlave) {
+      this.setState({
+        masterSlave: nextProps.masterSlave
       })
     }
   }
@@ -118,8 +157,11 @@ class SpeakerListItem extends Component {
     })
   }
 
+  onSetting() {
+    Actions.modalspeakermenu({hide: false, speaker: this.state.speaker})
+  }
+
   render() {
-    console.log('render', this.state.speaker)
     let {speaker} = this.state
 
     if(!speaker.player || !speaker.device)
@@ -138,6 +180,12 @@ class SpeakerListItem extends Component {
         </TouchableOpacity>
       )
 
+    const renderMasterSlave = (
+      <Text style={styles.textMaterSlave}>
+        {this.state.isMaster ? "M" : this.state.isSlave ? "S" : ""}
+      </Text>
+    )
+
     return (
       <TouchableOpacity
         onPress={() => {}}
@@ -148,6 +196,7 @@ class SpeakerListItem extends Component {
             style={styles.img}
             source={imgs.iconTabBar.speaker.active}
           />
+          {renderMasterSlave}
         </View>
         <View style={styles.rightContainer}>
           <View style={styles.header}>
@@ -156,7 +205,7 @@ class SpeakerListItem extends Component {
             </Text>
             <TouchableOpacity
               style={styles.iconSetting}
-              onPress={() => {}}
+              onPress={() => this.onSetting()}
             >
               <Image
                 style={styles.imgSetting}
@@ -191,19 +240,10 @@ class SpeakerListItem extends Component {
                 resizeMode="stretch"
               />
             </TouchableOpacity>
-            <Slider
+            <SliderBase
               value={parseInt(speaker.player.vol)}
-              style={styles.slider}
-              minimumValue={0}
-              maximumValue={100}
-              step={1}
               disabled={this.state.disabled}
-              trackStyle={styles.trackSlider}
-              thumbStyle={styles.thumbSlider}
-              minimumTrackTintColor="#19c1ff"
-              maximumTrackTintColor="#7e92a8"
-              thumbTintColor="#19c1ff"
-              thumbTouchSize={{width: 30, height: 30}}
+              type="volume"
               onSlidingComplete={(value) => this.onSetVol(value)}
             />
             <View style={styles.leftRight}>
@@ -229,7 +269,7 @@ const styles = StyleSheet.create({
   },
   imgage: {
     height: 110,
-    width: 80,
+    width: 90,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -237,6 +277,15 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     backgroundColor: 'transparent'
+  },
+  textMaterSlave: {
+    color: '#7e92a8',
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    fontSize: 13,
+    fontWeight: '600',
   },
   rightContainer: {
     flex: 1,
@@ -294,9 +343,9 @@ const styles = StyleSheet.create({
   },
   bottomView: {
     flexDirection: 'row',
-    //justifyContent: 'space-between',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    paddingBottom: 8,
+    paddingBottom: 2,
     paddingRight: 5,
   },
   imageVol: {
@@ -305,17 +354,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   leftRight: {
-    position: 'absolute',
     width: 28,
     height: 28,
     backgroundColor: 'transparent',
     borderRadius: 14,
-    borderWidth: 0.8,
+    borderWidth: 1,
     borderColor: '#7e92a8',
     justifyContent: 'center',
     alignItems: 'center',
-    right: 5,
-    bottom: 8,
     backgroundColor: 'rgba(43, 56, 72, 0.5)'
   },
   textLeftRight: {
@@ -325,26 +371,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     textAlign: 'justify',
   },
-  slider: {
-    width: width - 180,
-    marginLeft: 5,
-    justifyContent: 'center',
-  },
-  trackSlider: {
-    height: 2,
-    backgroundColor: '#7e92a8',
-    borderRadius: 1
-  },
-  thumbSlider: {
-    width: 10,
-    height: 10,
-    borderRadius: 10 / 2,
-    shadowColor: '#31a4db',
-    shadowOffset: {width: 0, height: 2},
-    shadowRadius: 2,
-    shadowOpacity: 0.35,
-    backgroundColor: '#19c1ff',
-  }
 });
 
-export default SpeakerListItem;
+const mapStateToProps = (state) => {
+  return {
+    masterSlave: state.wifiaudio.listSlave
+  }
+}
+
+export default connect(mapStateToProps,{ getMasterSlave, delMasterSlave })(SpeakerListItem);
