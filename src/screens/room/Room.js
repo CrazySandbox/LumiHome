@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 import { ChangeData } from '../../actions';
 import Body from '../../config/body';
 import LinearGradient from 'react-native-linear-gradient';
-import SliderBase from '../../components/base/Slider';
 
 class Room extends Component {
   constructor(props) {
@@ -37,9 +36,7 @@ class Room extends Component {
     return (
       <Body>
         <View style={styles.container} >
-        <SliderBase
-        />
-
+          
         </View>
       </Body>
     );
@@ -50,7 +47,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    //alignItems: 'center'
+    alignItems: 'center'
   },
   text: {
     fontSize: 17,

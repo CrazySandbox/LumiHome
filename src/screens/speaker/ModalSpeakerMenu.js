@@ -12,7 +12,8 @@ import { Actions } from 'react-native-router-flux';
 import imgs from '../../config/theme';
 import langs from '../../config/langs';
 import Switch from '../../components/base/Switch';
-import SliderBase from '../../components/base/Slider';
+import SliderLevel from '../../components/base/SliderLevel';
+import WifiAudio from '../../actions/speaker/wifiaudio';
 
 const {width, height} = Dimensions.get('window');
 
@@ -21,6 +22,10 @@ class ModalSpeakerMenu extends Component {
     super(props);
     this.state = {
       hide: props.hide,
+      sleepTimer: 0,
+      chooseTimer: false,
+      hideTimer: true,
+      onSwitch: false,
     }
     this.dismissModal = this.dismissModal.bind(this)
   }
@@ -28,7 +33,6 @@ class ModalSpeakerMenu extends Component {
   dismissModal() {
     this.setState({
       hide: false,
-      chooseTimer: false,
     })
     Actions.pop()
   }
@@ -37,6 +41,19 @@ class ModalSpeakerMenu extends Component {
     this.setState({
       chooseTimer: false
     })
+    if(this.state.sleepTimer == 0) {
+      this.setState({
+        hideTimer: true,
+      })
+    } else {
+      WifiAudio.setShutdown(this.props.speaker.ip, this.state.sleepTimer*60, (json) => {
+        console.log('settimer', json)
+        this.setState({
+          hideTimer: false,
+          onSwitch: true,
+        })
+      })
+    }
   }
 
   sleepTimer() {
@@ -45,15 +62,33 @@ class ModalSpeakerMenu extends Component {
     })
   }
 
+  onSwitchOff() {
+    WifiAudio.setShutdown(this.props.speaker.ip, 0, (json) => {
+      this.setState({
+        hideTimer: true
+      })
+    })
+  }
+
   render() {
     const RightTimer = (
       <View style={styles.rightTimer}>
-        <Switch
-          initialState={false}
-          style={styles.switchStyle}
-          onSwitchOn={() => console.log('switch on')}
-          onSwitchOff={() => console.log('switch off')}
-        />
+      {
+        this.state.hideTimer ? (<View />) : (
+        <View style={styles.timeout}>
+          <View style={styles.timer}>
+            <Text style={styles.textTimer}>
+              timeout
+            </Text>
+          </View>
+          <Switch
+            initialState={this.props.onSwitch}
+            style={styles.switchStyle}
+            onSwitchOff={this.onSwitchOff.bind(this)}
+          />
+        </View>)
+      }
+
         <View style={styles.direction}>
           <Image
             style={styles.imgDirection}
@@ -86,11 +121,10 @@ class ModalSpeakerMenu extends Component {
     )
 
     const ViewChooseTimer = (
-      <SliderBase
-        type="chooseTimer"
-        maximumValue={7}
-        minimumValue={0}
-        step={1}
+      <SliderLevel
+        onSlidingComplete={(value) => this.setState({
+          sleepTimer: value,
+        })}
       />
     )
 
@@ -205,7 +239,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modal: {
-    height: 320,
+    height: 330,
     position: 'absolute',
     bottom: 0,
     right: 0,
@@ -213,29 +247,25 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'black',
     justifyContent: 'center',
-    paddingLeft: 30,
-    paddingRight: 8,
   },
   dismiss: {
     width: width,
-    height: height-320,
-    marginBottom: 320,
+    height: height-330,
+    marginBottom: 330,
   },
   header: {
     height: 50,
     justifyContent: 'center',
     borderBottomWidth: 0.5,
-    borderBottomColor: '#7e92a8'
+    borderBottomColor: '#7e92a8',
+    marginLeft: 30,
+    marginRight: 8,
   },
   textTitle: {
     fontSize: 18,
     fontWeight: '500',
     backgroundColor: 'transparent',
     color: '#19c1ff'
-  },
-  imageClose: {
-    height: 28,
-    width: 28,
   },
   body: {
     flex: 1,
@@ -247,6 +277,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 40,
     alignItems: 'center',
+    paddingLeft: 30,
+    paddingRight: 8,
   },
   imgRow: {
     height: 24,
@@ -264,6 +296,8 @@ const styles = StyleSheet.create({
     height: 40,
     alignItems: 'center',
     justifyContent: 'space-between',
+    paddingLeft: 30,
+    paddingRight: 8,
   },
   viewTimer: {
     flexDirection: 'row',
@@ -297,14 +331,28 @@ const styles = StyleSheet.create({
     color: '#19c1ff',
   },
   viewFooter: {
-    height: 40,
+    height: 60,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: 5
   },
   footer: {
-    padding: 8
+    paddingBottom: 8
   },
   titleFooter: {
+    fontSize: 20,
+    fontWeight: '500',
+    backgroundColor: 'transparent',
+    color: '#19c1ff',
+  },
+  timeout: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  timer: {
+    marginRight: 8
+  },
+  textTimer: {
     fontSize: 20,
     fontWeight: '500',
     backgroundColor: 'transparent',

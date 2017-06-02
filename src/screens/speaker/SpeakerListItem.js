@@ -243,7 +243,6 @@ class SpeakerListItem extends Component {
             <SliderBase
               value={parseInt(speaker.player.vol)}
               disabled={this.state.disabled}
-              type="volume"
               onSlidingComplete={(value) => this.onSetVol(value)}
             />
             <View style={styles.leftRight}>

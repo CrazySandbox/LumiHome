@@ -17,6 +17,8 @@ class Switch extends Component {
     onSwitchOff: PropTypes.func,
     imageSwitchOn: Image.propTypes.source,
     imageSwitchOff: Image.propTypes.source,
+    onChangeValue: PropTypes.func,
+    value: PropTypes.bool
   }
 
   static defaultProps = {
@@ -31,6 +33,12 @@ class Switch extends Component {
     this.state = {
       isSwitchOn: this.props.initialState,
     }
+  }
+
+  onChangeValue() {
+    this.setState({
+      isSwitchOn: this.props.value,
+    })
   }
 
   onPress() {
