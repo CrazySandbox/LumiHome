@@ -159,6 +159,11 @@ class SpeakerListItem extends Component {
 
   onSetting() {
     Actions.modalspeakermenu({hide: false, speaker: this.state.speaker})
+    this.props.onSettingItem(this.state.speaker)
+  }
+
+  onSelect() {
+    this.props.onPressItem(this.state.speaker)
   }
 
   render() {
@@ -188,7 +193,7 @@ class SpeakerListItem extends Component {
 
     return (
       <TouchableOpacity
-        onPress={() => {}}
+        onPress={this.onSelect.bind(this)}
         style={styles.container}
       >
         <View style={styles.imgage}>
@@ -205,7 +210,7 @@ class SpeakerListItem extends Component {
             </Text>
             <TouchableOpacity
               style={styles.iconSetting}
-              onPress={() => this.onSetting()}
+              onPress={this.onSetting.bind(this)}
             >
               <Image
                 style={styles.imgSetting}

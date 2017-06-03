@@ -80,6 +80,7 @@ export const base = {
   down: require('../../imgs/theme1/base/down/Down.png'),
   right: require('../../imgs/theme1/base/right/Orange.png'),
   left: require('../../imgs/theme1/base/left/Orange.png'),
+  leftWhite: require('../../imgs/theme1/base/left/White.png'),
 }
 
 export const backGround = {

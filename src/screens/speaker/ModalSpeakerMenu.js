@@ -21,20 +21,57 @@ class ModalSpeakerMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      hide: props.hide,
+      hide: this.props.hide,
       sleepTimer: 0,
       chooseTimer: false,
       hideTimer: true,
       onSwitch: false,
+      shutdownTime: 0
     }
     this.dismissModal = this.dismissModal.bind(this)
+    this.intervalUpdate = null
   }
 
   dismissModal() {
     this.setState({
-      hide: false,
+      hide: true,
     })
     Actions.pop()
+  }
+
+  componentWillMount() {
+    this.update()
+    if(this.intervalUpdate) {
+      clearInterval(this.intervalUpdate)
+    }
+
+    this.intervalUpdate = setInterval(this.update.bind(this), 1000);
+  }
+
+  update() {
+    WifiAudio.getShutdown(this.props.speaker.ip, (json)=>{
+			if(!this.intervalUpdate)
+				return;
+			this.setState({
+				shutdownTime : parseInt(json)
+			})
+      if(parseInt(json) > 0) {
+        this.setState({
+          hideTimer: false,
+        })
+      } else {
+        this.setState({
+          hideTimer: true
+        })
+      }
+		});
+  }
+
+  componentWillUnmount() {
+    if(this.intervalUpdate) {
+      clearInterval(this.intervalUpdate)
+    }
+    this.intervalUpdate = null
   }
 
   onSetTimer() {
@@ -70,7 +107,46 @@ class ModalSpeakerMenu extends Component {
     })
   }
 
+  onRename() {
+    this.setState({
+      hide: true,
+    })
+    Actions.renameSpeaker({type: 'reset', data: this.props.speaker})
+  }
+
+  joinSpeaker() {
+
+  }
+
+  speakerInfo() {
+    this.setState({
+      hide: true,
+    })
+    Actions.infoSpeaker({type: 'reset', data: this.props.speaker})
+  }
+
+  alarmClock() {
+
+  }
+
   render() {
+    let timeText = null
+    if(this.state.shutdownTime > 0) {
+      let h = parseInt(this.state.shutdownTime/3600)
+      let m = parseInt((this.state.shutdownTime - h*3600)/60)
+      let s = this.state.shutdownTime - h*3600 - m*60
+      if(h > 0) {
+        timeText = h < 10 ? ("0" + h) : String(h)
+        timeText += ":"
+        timeText += m < 10 ? ("0" + m) : String(m)
+        timeText += ":"
+        timeText += s < 10 ? ("0" + s) : String(s)
+      } else {
+        timeText = m < 10 ? ("0" + m) : String(m)
+        timeText += ":"
+        timeText += s < 10 ? ("0" + s) : String(s)
+      }
+    }
     const RightTimer = (
       <View style={styles.rightTimer}>
       {
@@ -78,7 +154,7 @@ class ModalSpeakerMenu extends Component {
         <View style={styles.timeout}>
           <View style={styles.timer}>
             <Text style={styles.textTimer}>
-              timeout
+              {timeText}
             </Text>
           </View>
           <Switch
@@ -149,7 +225,7 @@ class ModalSpeakerMenu extends Component {
             <View style={styles.body}>
               <TouchableOpacity
                 style={styles.row}
-                onPress={this.onRename}
+                onPress={this.onRename.bind(this)}
               >
                 <Image
                   style={styles.imgRow}
@@ -162,7 +238,7 @@ class ModalSpeakerMenu extends Component {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.row}
-                onPress={this.joinSpeaker}
+                onPress={this.joinSpeaker.bind(this)}
               >
                 <Image
                   style={styles.imgRow}
@@ -175,7 +251,7 @@ class ModalSpeakerMenu extends Component {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.row}
-                onPress={this.speakerInfo}
+                onPress={this.speakerInfo.bind(this)}
               >
                 <Image
                   style={styles.imgRow}
@@ -188,7 +264,7 @@ class ModalSpeakerMenu extends Component {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.row}
-                onPress={this.alarmClock}
+                onPress={this.alarmClock.bind(this)}
               >
                 <Image
                   style={styles.imgRow}

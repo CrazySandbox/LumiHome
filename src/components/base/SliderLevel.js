@@ -42,8 +42,8 @@ class SliderLevel extends Component {
     thumbImage: imgs.iconSpeaker.thumb,
     width: 330,
     height: 60,
-    levels: [0, 5, 10, 15, 30, 60],
-    valueText: ["0m", "5m", "10m", "15m", "30m", "1h"],
+    levels: [0, 5, 10, 20, 30, 60, 120, 300],
+    valueText: ['0m','5m','10m','20m','30m','1h','2h','5h'],
   }
 
   constructor(props) {

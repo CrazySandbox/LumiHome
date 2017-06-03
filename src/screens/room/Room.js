@@ -9,6 +9,9 @@ import { connect } from 'react-redux';
 import { ChangeData } from '../../actions';
 import Body from '../../config/body';
 import LinearGradient from 'react-native-linear-gradient';
+import Modal from 'react-native-modalbox';
+import Button from '../../components/base/button';
+import { Actions } from 'react-native-router-flux';
 
 class Room extends Component {
   constructor(props) {
@@ -30,13 +33,44 @@ class Room extends Component {
     routes: PropTypes.object.isRequired,
   };
 
+  onPressOpen() {
+    Actions.refresh({ hideTabBar: true})
+    this.refs.modal4.open()
+  }
+
+  onOpen() {
+    console.log('onOpen')
+  }
+
+  onClose() {
+    Actions.refresh({ hideTabBar: false})
+  }
+
   render() {
     const {routes} = this.context;
     console.log('room context',this.context)
     return (
       <Body>
         <View style={styles.container} >
-          
+          <Button
+            title="Open modalBox"
+            gradient
+            onPress={this.onPressOpen.bind(this)}
+          />
+
+          <Modal
+            style={[styles.modal, styles.modal4]}
+            position={"bottom"}
+            ref={"modal4"}
+            onClosed={this.onClose}
+            onOpened={this.onOpen}
+          >
+            <Button
+              title="olala"
+              gradient
+              onPress={this.onPressOpen.bind(this)}
+            />
+        </Modal>
         </View>
       </Body>
     );
@@ -48,6 +82,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  modal: {
+  justifyContent: 'center',
+  alignItems: 'center'
+  },
+  modal4: {
+    height: 300
   },
   text: {
     fontSize: 17,

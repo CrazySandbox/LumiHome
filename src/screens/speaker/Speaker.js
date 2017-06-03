@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import SpeakerListItem from './SpeakerListItem';
 import { Actions } from 'react-native-router-flux';
 import imgs from '../../config/theme';
+import Modal from 'react-native-modalbox';
 
 class Speaker extends Component {
 
@@ -63,8 +64,13 @@ class Speaker extends Component {
     }
   }
 
-  onPressItem = () => {
-    console.log('click me');
+  _onPressItem = (value) => {
+    console.log('click me',value);
+  }
+
+  _onSettingItem = (value) => {
+    Actions.refresh({ hideTabBar: true})
+    this.refs.modal4.open()
   }
 
   onRefresh() {
@@ -78,9 +84,11 @@ class Speaker extends Component {
   }
 
   _renderItem = ({item}) => {
+    console.log('item = ', item)
     return (
       <SpeakerListItem
-        onPressItem={this._onPressItem}
+        onPressItem={(value) => this._onPressItem(value)}
+        onSettingItem={(value) => this._onSettingItem(value)}
         ip={item}
       />
     );
@@ -97,6 +105,15 @@ class Speaker extends Component {
           refreshing={this.state.refreshing}
           enableEmptySections={true}
         />
+        <Modal
+          style={[styles.modal, styles.modal4]}
+          position={"bottom"}
+          ref={"modal4"}
+          onClosed={this.onClose}
+          onOpened={this.onOpen}
+        >
+
+        </Modal>
     )
 
     const NoSpeaker = (

@@ -31,6 +31,8 @@ import Intro2 from './screens/intro/intro2';
 import Intro3 from './screens/intro/intro3';
 
 import ModalSpeakerMenu from './screens/speaker/ModalSpeakerMenu';
+import RenameSpeaker from './screens/speaker/rename';
+import SpeakerInfo from './screens/speaker/infoSpeaker';
 
 //import LoginForm from './screens/login/LoginForm';
 
@@ -50,7 +52,7 @@ class RouterComponent extends Component {
           <Scene key="root" hideNavBar hideTabBar >
             <Scene key="login"
               component={Login}
-
+              initial
               Data={DATA}
             />
             <Scene key="intro1"
@@ -102,7 +104,7 @@ class RouterComponent extends Component {
               titleStyle={commonStyle.navTitle}
             />
 
-            <Scene key="tabbar" initial component={NavigationDrawer}>
+            <Scene key="tabbar"  component={NavigationDrawer}>
               <Scene
                 key="main"
                 tabs
@@ -212,6 +214,19 @@ class RouterComponent extends Component {
                     component={Speaker}
                     title={langs.speaker}
                     rightButtonTextStyle={commonStyle.navRightTextButton}
+                  />
+                  <Scene
+                    key="renameSpeaker"
+                    component={RenameSpeaker}
+                    hideTabBar
+                    title={langs.renameSpeaker}
+                    rightButtonTextStyle={commonStyle.navRightTextButton}
+                  />
+                  <Scene
+                    key="infoSpeaker"
+                    component={SpeakerInfo}
+                    hideTabBar
+                    title={langs.infoSpeaker}
                   />
                 </Scene>
               </Scene>
