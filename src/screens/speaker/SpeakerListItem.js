@@ -19,6 +19,7 @@ import SliderBase from '../../components/base/Slider';
 import WifiAudio from '../../actions/speaker/wifiaudio';
 import Toast from '@remobile/react-native-toast';
 import { Utf8ArrayToStr } from '../../actions/speaker/convertData';
+import { getDateTimeSpeaker } from '../../components/until';
 
 var { width, height} = Dimensions.get('window');
 const TIME_UPDATE = 2000;
@@ -39,6 +40,10 @@ class SpeakerListItem extends Component {
   }
 
   componentWillMount() {
+
+  }
+
+  componentDidMount() {
     WifiAudio.getStatus(this.props.ip, (json) => {
       let speaker = this.state.speaker
       speaker.ip = this.state.ip
@@ -48,9 +53,9 @@ class SpeakerListItem extends Component {
         speaker: speaker
       })
     })
-  }
 
-  componentDidMount() {
+    WifiAudio.synchClock(this.props.ip, getDateTimeSpeaker(), (json) => {});
+
     this.update();
     this.reg();
   }
@@ -158,7 +163,7 @@ class SpeakerListItem extends Component {
   }
 
   onSetting() {
-    Actions.modalspeakermenu({hide: false, speaker: this.state.speaker})
+    //Actions.modalspeakermenu({hide: false, speaker: this.state.speaker})
     this.props.onSettingItem(this.state.speaker)
   }
 

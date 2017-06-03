@@ -12,6 +12,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modalbox';
 import Button from '../../components/base/button';
 import { Actions } from 'react-native-router-flux';
+import { getDate, getDateTimeSpeaker } from '../../components/until';
 
 class Room extends Component {
   constructor(props) {
@@ -35,6 +36,8 @@ class Room extends Component {
 
   onPressOpen() {
     Actions.refresh({ hideTabBar: true})
+    getDate()
+    getDateTimeSpeaker()
     this.refs.modal4.open()
   }
 

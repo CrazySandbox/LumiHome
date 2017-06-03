@@ -30,7 +30,6 @@ import Intro1 from './screens/intro/intro1';
 import Intro2 from './screens/intro/intro2';
 import Intro3 from './screens/intro/intro3';
 
-import ModalSpeakerMenu from './screens/speaker/ModalSpeakerMenu';
 import RenameSpeaker from './screens/speaker/rename';
 import SpeakerInfo from './screens/speaker/infoSpeaker';
 
@@ -232,7 +231,6 @@ class RouterComponent extends Component {
               </Scene>
             </Scene>
           </Scene>
-          <Scene key="modalspeakermenu" component={ModalSpeakerMenu} />
         </Scene>
       </RouterWithRedux>
     );

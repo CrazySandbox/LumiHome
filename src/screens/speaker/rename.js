@@ -4,7 +4,8 @@ import {
   View,
   Text,
   TouchableOpacity,
-  FlatList
+  FlatList,
+  SectionList
 } from 'react-native';
 
 import { Actions } from 'react-native-router-flux';
@@ -30,7 +31,10 @@ class RenameSpeaker extends Component {
   constructor(props) {
     super(props);
     var speaker = this.props.data;
-    var DATA = [speaker.device.name,'Custom','Livingroom','Bedroom','Master Room','Kitchen','Dinning Room','Metting Room','Hallway','Bathroom','Garden'];
+    var DATA = [ speaker.device.DeviceName,'Custom','Livingroom','Bedroom','Master Room','Kitchen','Dinning Room','Metting Room','Hallway','Bathroom','Garden'];
+    this.state = {
+      data: DATA,
+    }
   }
 
   componentWillMount() {
@@ -51,19 +55,30 @@ class RenameSpeaker extends Component {
     console.log('item = ',item)
     return (
       <Text style={{color: 'white'}}>
-        {item}
+        {item.data}
       </Text>
     )
   }
 
   render() {
+    let speaker = this.props.data;
     return (
       <Body>
-      <FlatList
-        data={this.DATA}
-        extraData={this.state}
-        keyExtractor={this._keyExtractor}
+      <SectionList
         renderItem={this._renderItem}
+        sections={[
+          {data: speaker.device.DeviceName, key: 0},
+          {data: 'Custom', key: 1},
+          {data: 'Livingroom', key: 2},
+          {data: 'Bedroom', key: 3},
+          {data: 'Master Room', key: 4},
+          {data: 'Kitchen', key: 5},
+          {data: 'Dinning Room', key: 6},
+          {data: 'Metting Room', key: 7},
+          {data: 'Hallway', key: 8},
+          {data: 'Bathroom', key: 9},
+          {data: 'Garden', key: 10},
+        ]}
       />
       </Body>
     );

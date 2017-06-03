@@ -3,7 +3,8 @@ import {
   StyleSheet,
   View,
   Text,
-  FlatList
+  FlatList,
+  TouchableOpacity
 } from 'react-native';
 import Body from '../../config/body';
 import Button from '../../components/base/button';
@@ -17,6 +18,7 @@ import SpeakerListItem from './SpeakerListItem';
 import { Actions } from 'react-native-router-flux';
 import imgs from '../../config/theme';
 import Modal from 'react-native-modalbox';
+import ModalSpeakerMenu from './ModalSpeakerMenu';
 
 class Speaker extends Component {
 
@@ -25,7 +27,8 @@ class Speaker extends Component {
     this.state = {
        listIP: [],
        loading: true,
-       refreshing: false
+       refreshing: false,
+       selectRow: ''
     }
   }
 
@@ -70,7 +73,10 @@ class Speaker extends Component {
 
   _onSettingItem = (value) => {
     Actions.refresh({ hideTabBar: true})
-    this.refs.modal4.open()
+    this.setState({
+      selectRow: value
+    })
+    this.refs.modal.open()
   }
 
   onRefresh() {
@@ -84,7 +90,6 @@ class Speaker extends Component {
   }
 
   _renderItem = ({item}) => {
-    console.log('item = ', item)
     return (
       <SpeakerListItem
         onPressItem={(value) => this._onPressItem(value)}
@@ -94,9 +99,18 @@ class Speaker extends Component {
     );
   }
 
+  onOpen() {
+
+  }
+
+  onClose() {
+    Actions.refresh({ hideTabBar: false})
+  }
+
   render() {
     const { listIP, loading } = this.state
     const ListSpeaker = (
+      <View style={styles.container}>
         <FlatList
           data={listIP}
           keyExtractor={item => item}
@@ -106,14 +120,21 @@ class Speaker extends Component {
           enableEmptySections={true}
         />
         <Modal
-          style={[styles.modal, styles.modal4]}
+          style={styles.modal}
           position={"bottom"}
-          ref={"modal4"}
+          ref={"modal"}
           onClosed={this.onClose}
           onOpened={this.onOpen}
         >
-
+          {
+            this.state.selectRow == '' ? null :
+            <ModalSpeakerMenu
+              speaker={this.state.selectRow}
+              dismissModal={() => this.refs.modal.close()}
+            />
+          }
         </Modal>
+      </View>
     )
 
     const NoSpeaker = (
@@ -163,6 +184,11 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: 'rgba(25, 193, 255, 0.9)',
     borderRadius: 5,
+  },
+  modal: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 330
   }
 });
 

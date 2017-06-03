@@ -166,9 +166,10 @@ WifiAudio.getListMusics = (url, callback) =>
   .done();
 }
 
-WifiAudio.synchClock = (ip, callback)=>
+// time = DDMMYYYYHHMMSS
+WifiAudio.synchClock = (ip, dateTime, callback)=>
 {
-  fetch('http://' + ip + '/httpapi.asp?command=timeSync:DDMMYYYYHHMMSS', {method: "GET"})
+  fetch('http://' + ip + '/httpapi.asp?command=timeSync:' + dateTime, {method: "GET"})
   .then((response) => response.text())
   .then((responseData) => {
       if(callback)
@@ -358,5 +359,34 @@ WifiAudio.setShutdown = (url, sec, callback)=>
   .done();
 }
 
+WifiAudio.connectWifi = (ip, callback) => {
+  fetch('http://' + ip + '/httpapi.asp', {method: "POST"})
+  .then((response) => response.json())
+  .then((responseData) => {
+      if(callback)
+      {
+        callback(responseData)
+      }
+  })
+  .catch((error) => {
+
+     })
+  .done();
+}
+
+WifiAudio.setSSID = (ip, value, callback) => {
+  fetch('http://' + ip + '/httpapi.asp?command=setSSID:' + value, {method: "GET"})
+  .then((response) => response.json())
+  .then((responseData) => {
+      if(callback)
+      {
+        callback(responseData)
+      }
+  })
+  .catch((error) => {
+
+     })
+  .done();
+}
 
 export default WifiAudio;

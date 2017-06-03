@@ -21,22 +21,13 @@ class ModalSpeakerMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      hide: this.props.hide,
       sleepTimer: 0,
       chooseTimer: false,
       hideTimer: true,
       onSwitch: false,
       shutdownTime: 0
     }
-    this.dismissModal = this.dismissModal.bind(this)
     this.intervalUpdate = null
-  }
-
-  dismissModal() {
-    this.setState({
-      hide: true,
-    })
-    Actions.pop()
   }
 
   componentWillMount() {
@@ -74,6 +65,10 @@ class ModalSpeakerMenu extends Component {
     this.intervalUpdate = null
   }
 
+  dismissModal() {
+    this.props.dismissModal()
+  }
+
   onSetTimer() {
     this.setState({
       chooseTimer: false
@@ -108,9 +103,6 @@ class ModalSpeakerMenu extends Component {
   }
 
   onRename() {
-    this.setState({
-      hide: true,
-    })
     Actions.renameSpeaker({type: 'reset', data: this.props.speaker})
   }
 
@@ -119,10 +111,7 @@ class ModalSpeakerMenu extends Component {
   }
 
   speakerInfo() {
-    this.setState({
-      hide: true,
-    })
-    Actions.infoSpeaker({type: 'reset', data: this.props.speaker})
+    Actions.infoSpeaker({type: 'reset', speaker: this.props.speaker})
   }
 
   alarmClock() {
@@ -188,7 +177,7 @@ class ModalSpeakerMenu extends Component {
     const Footer = (
       <TouchableOpacity
         style={styles.footer}
-        onPress={this.dismissModal}
+        onPress={this.dismissModal.bind(this)}
       >
         <Text style={styles.titleFooter}>
           {langs.backSpeaker}
@@ -204,116 +193,93 @@ class ModalSpeakerMenu extends Component {
       />
     )
 
-    if(this.state.hide) {
-      return (
-        <View />
-      )
-    } else {
-      return (
-        <View style={styles.container} >
-          <TouchableOpacity
-            onPress={this.dismissModal}
-            style={styles.dismiss}
-          />
-          <View style={styles.modal} >
-            <View style={styles.header}>
-                <Text style={styles.textTitle}>
-                  {this.props.speaker.device.DeviceName}
-                </Text>
-            </View>
+    return (
+        <View style={styles.modal} >
+          <View style={styles.header}>
+              <Text style={styles.textTitle}>
+                {this.props.speaker.device.DeviceName}
+              </Text>
+          </View>
 
-            <View style={styles.body}>
-              <TouchableOpacity
-                style={styles.row}
-                onPress={this.onRename.bind(this)}
-              >
+          <View style={styles.body}>
+            <TouchableOpacity
+              style={styles.row}
+              onPress={this.onRename.bind(this)}
+            >
+              <Image
+                style={styles.imgRow}
+                source={imgs.iconSpeaker.rename}
+                resizeMode="stretch"
+              />
+              <Text style={styles.textRow}>
+                {langs.renameSpeaker}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.row}
+              onPress={this.joinSpeaker.bind(this)}
+            >
+              <Image
+                style={styles.imgRow}
+                source={imgs.iconSpeaker.join}
+                resizeMode="stretch"
+              />
+              <Text style={styles.textRow}>
+                {langs.joinSpeaker}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.row}
+              onPress={this.speakerInfo.bind(this)}
+            >
+              <Image
+                style={styles.imgRow}
+                source={imgs.iconSpeaker.info}
+                resizeMode="stretch"
+              />
+              <Text style={styles.textRow}>
+                {langs.infoSpeaker}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.row}
+              onPress={this.alarmClock.bind(this)}
+            >
+              <Image
+                style={styles.imgRow}
+                source={imgs.iconSpeaker.alarm}
+                resizeMode="stretch"
+              />
+              <Text style={styles.textRow}>
+                {langs.alarmSpeaker}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.rowTimer}
+              onPress={this.sleepTimer.bind(this)}
+            >
+              <View style={styles.viewTimer}>
                 <Image
                   style={styles.imgRow}
-                  source={imgs.iconSpeaker.rename}
+                  source={imgs.iconSpeaker.timer}
                   resizeMode="stretch"
                 />
                 <Text style={styles.textRow}>
-                  {langs.renameSpeaker}
+                  {langs.sleepTimerSpeaker}
                 </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.row}
-                onPress={this.joinSpeaker.bind(this)}
-              >
-                <Image
-                  style={styles.imgRow}
-                  source={imgs.iconSpeaker.join}
-                  resizeMode="stretch"
-                />
-                <Text style={styles.textRow}>
-                  {langs.joinSpeaker}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.row}
-                onPress={this.speakerInfo.bind(this)}
-              >
-                <Image
-                  style={styles.imgRow}
-                  source={imgs.iconSpeaker.info}
-                  resizeMode="stretch"
-                />
-                <Text style={styles.textRow}>
-                  {langs.infoSpeaker}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.row}
-                onPress={this.alarmClock.bind(this)}
-              >
-                <Image
-                  style={styles.imgRow}
-                  source={imgs.iconSpeaker.alarm}
-                  resizeMode="stretch"
-                />
-                <Text style={styles.textRow}>
-                  {langs.alarmSpeaker}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.rowTimer}
-                onPress={this.sleepTimer.bind(this)}
-              >
-                <View style={styles.viewTimer}>
-                  <Image
-                    style={styles.imgRow}
-                    source={imgs.iconSpeaker.timer}
-                    resizeMode="stretch"
-                  />
-                  <Text style={styles.textRow}>
-                    {langs.sleepTimerSpeaker}
-                  </Text>
-                </View>
-                {this.state.chooseTimer ? Close : RightTimer}
-              </TouchableOpacity>
-              <View style={styles.viewFooter}>
-                {this.state.chooseTimer ? ViewChooseTimer : Footer}
               </View>
+              {this.state.chooseTimer ? Close : RightTimer}
+            </TouchableOpacity>
+            <View style={styles.viewFooter}>
+              {this.state.chooseTimer ? ViewChooseTimer : Footer}
             </View>
           </View>
         </View>
-      );
-    }
+    );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    left: 0,
-    width: width,
-    height: height,
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   modal: {
     height: 330,
     position: 'absolute',

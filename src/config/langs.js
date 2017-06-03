@@ -63,6 +63,14 @@ let langs = new LocalizedString({
     sleepTimerSpeaker: 'Sleep Timer',
     backSpeaker: 'Back',
     closedTimer: 'OK',
+    speakerName: 'Speaker Name',
+    ipSpeaker: 'IP',
+    macSpeaker: 'MAC',
+    ssid: 'SSID',
+    hideSSID: 'Hide SSID',
+    filmwareSpeaker: 'Firmware Version',
+    buildDateSpeaker: 'Build Date',
+    uuid: 'UUID',
   },
   vn: {
     //****Tabbar
@@ -124,6 +132,14 @@ let langs = new LocalizedString({
     sleepTimerSpeaker: 'Hẹn giờ',
     backSpeaker: 'Quay lại',
     closedTimer: 'Xác nhận',
+    speakerName: 'Tên Speaker',
+    ipSpeaker: 'IP',
+    macSpeaker: 'MAC',
+    ssid: 'SSID',
+    hideSSID: 'Ẩn SSID',
+    filmwareSpeaker: 'Phiên bản phần mềm',
+    buildDateSpeaker: 'Build Date',
+    uuid: 'UUID',
   }
 });
 
