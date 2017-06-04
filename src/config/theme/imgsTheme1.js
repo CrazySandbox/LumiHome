@@ -89,6 +89,9 @@ export const iconSpeaker = {
   listMusic: require('../../imgs/theme1/iconSpeaker/listMusic/Black.png'),
   favouriteBlue: require('../../imgs/theme1/iconSpeaker/favourite/orange.png'),
   favouriteBlack: require('../../imgs/theme1/iconSpeaker/favourite/Black.png'),
+  usb: require('../../imgs/theme1/iconSpeaker/usb/Green.png'),
+  share: require('../../imgs/theme1/iconSpeaker/share/Green.png'),
+  homeMusic: require('../../imgs/theme1/iconSpeaker/HomeMusic/Green.png'),
 }
 
 export const base = {

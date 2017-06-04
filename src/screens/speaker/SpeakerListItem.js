@@ -78,32 +78,32 @@ class SpeakerListItem extends Component {
 				speaker : speaker
 			})
 
-      WifiAudio.getSlaves(this.state.ip, (json3) => {
-
-        if(json3.slaves > 0) {
-          this.setState({
-            isMaster: true,
-            isSlave: false,
-          })
-          this.props.getMasterSlave(this.state.ip, json3)
-        } else {
-          if(this.state.masterSlave.ip) {
-            for(var i=0; i<this.state.masterSlave.slave_list.slave_list.length; i++) {
-              if(this.state.speaker.device.apcli0 == this.state.masterSlave.slave_list.slave_list[i].ip) {
-                this.setState({
-                  isMaster: false,
-                  isSlave: true
-                })
-              }
-            }
-          } else {
-            this.setState({
-              isMaster: false,
-              isSlave: false
-            })
-          }
-        }
-      })
+      // WifiAudio.getSlaves(this.state.ip, (json3) => {
+      //
+      //   if(json3.slaves > 0) {
+      //     this.setState({
+      //       isMaster: true,
+      //       isSlave: false,
+      //     })
+      //     this.props.getMasterSlave(this.state.ip, json3)
+      //   } else {
+      //     if(this.state.masterSlave.ip) {
+      //       for(var i=0; i<this.state.masterSlave.slave_list.slave_list.length; i++) {
+      //         if(this.state.speaker.device.apcli0 == this.state.masterSlave.slave_list.slave_list[i].ip) {
+      //           this.setState({
+      //             isMaster: false,
+      //             isSlave: true
+      //           })
+      //         }
+      //       }
+      //     } else {
+      //       this.setState({
+      //         isMaster: false,
+      //         isSlave: false
+      //       })
+      //     }
+      //   }
+      // })
 		});
 	}
 

@@ -43,12 +43,12 @@ class Speaker extends Component {
 
   componentDidMount() {
     this.props.listenUPNPSpeaker()
-      this.timeoutSearch = null
-      this.timeoutSearch = setTimeout(() => {
-        this.setState({
-        loading: false
-        })
-       }, 12000);
+    this.timeoutSearch = null
+    this.timeoutSearch = setTimeout(() => {
+      this.setState({
+      loading: false
+      })
+     }, 12000);
   }
 
   componentWillUnmount() {

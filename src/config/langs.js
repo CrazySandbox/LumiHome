@@ -74,6 +74,11 @@ let langs = new LocalizedString({
     cancelSpeaker: 'Cancel',
     doneSpeaker: 'OK',
     enterNameSpeaker: 'Enter name',
+    localMusic: 'Local',
+    usb: 'USB',
+    shareMusic: 'Share',
+    favourite: 'Favourite',
+    homeDisplay: 'Home Display',
   },
   vn: {
     //****Tabbar
@@ -146,6 +151,11 @@ let langs = new LocalizedString({
     cancelSpeaker: 'Huỷ',
     doneSpeaker: 'Thực hiện',
     enterNameSpeaker: 'Nhập tên Speaker',
+    localMusic: 'Local',
+    usb: 'USB',
+    shareMusic: 'Chia sẻ',
+    favourite: 'Ưu thích',
+    homeDisplay: 'Hiển thị màn hình chính',
   }
 });
 
