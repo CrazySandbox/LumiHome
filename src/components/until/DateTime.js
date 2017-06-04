@@ -41,3 +41,43 @@ export const getDateTimeSpeaker = () => {
   d += sec < 10 ? '0' + sec : sec
   return d
 }
+
+export const parseTime = (time) => {
+  let d = null
+  if(time < 0) {
+    time = 0 - time
+    time = parseInt(time * 0.001)
+    let h = parseInt(time / 3600)
+    let m = parseInt((time - h * 3600) / 60)
+    let s = time - h * 3600 - m * 60
+    if(h > 0) {
+      d = h < 10 ? "0" + h : h
+      d += ":"
+      d += m < 10 ? "0" + m : m
+      d += ":"
+      d += s < 10 ? "0" + s : s
+    } else {
+      d = m < 10 ? "0" + m : m
+      d += ":"
+      d += s < 10 ? "0" + s : s
+    }
+    d = "-" + d
+  } else {
+    time = parseInt(time * 0.001)
+    let h = parseInt(time / 3600)
+    let m = parseInt((time - h * 3600) / 60)
+    let s = time - h * 3600 - m * 60
+    if(h > 0) {
+      d = h < 10 ? "0" + h : h
+      d += ":"
+      d += m < 10 ? "0" + m : m
+      d += ":"
+      d += s < 10 ? "0" + s : s
+    } else {
+      d = m < 10 ? "0" + m : m
+      d += ":"
+      d += s < 10 ? "0" + s : s
+    }
+  }
+  return d;
+}

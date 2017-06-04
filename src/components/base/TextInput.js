@@ -186,8 +186,8 @@ class Input extends Component {
       return (
         <View
           style={[
-            style,
             styles.container,
+            style,
             this.props.error ? errorStyle || styles.viewError : '',
             this.state.isFocus ? styles.viewFocus : styles.view]}
         >
@@ -220,8 +220,8 @@ class Input extends Component {
       return (
         <View
           style={[
-            style,
             styles.container,
+            style,
             this.props.error ? errorStyle || styles.viewError : '',
             this.state.isFocus ? styles.viewFocus : styles.view]}
         >
@@ -254,8 +254,8 @@ class Input extends Component {
       return (
         <View
           style={[
-            style,
             styles.container,
+            style,
             this.props.error ? errorStyle || styles.viewError : '',
             this.state.isFocus ? styles.viewFocus : styles.view]}
         >

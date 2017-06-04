@@ -66,12 +66,29 @@ export const iconSpeaker = {
   muteBlue: require('../../imgs/theme1/iconSpeaker/Mute/Green.png'),
   add: require('../../imgs/theme1/iconSpeaker/add/add.png'),
   thumb: require('../../imgs/theme1/iconSpeaker/thumb/thumb.png'),
+  thumb2: require('../../imgs/theme1/iconSpeaker/thumb/thumb2.png'),
   alarm: require('../../imgs/theme1/iconSpeaker/alarm/clock.png'),
   info: require('../../imgs/theme1/iconSpeaker/info/Shape.png'),
   rename: require('../../imgs/theme1/iconSpeaker/rename/Green.png'),
   join: require('../../imgs/theme1/iconSpeaker/joinspeaker/Green.png'),
   timer: require('../../imgs/theme1/iconSpeaker/timer/Green.png'),
   closed: require('../../imgs/theme1/iconSpeaker/closed/closed.png'),
+  repeat: {
+    loop: require('../../imgs/theme1/iconSpeaker/repeat/loop.png'),
+    noloop: require('../../imgs/theme1/iconSpeaker/repeat/noloop.png'),
+    shuffle_all: require('../../imgs/theme1/iconSpeaker/repeat/shuffle-all.png'),
+    shuffle_all0: require('../../imgs/theme1/iconSpeaker/repeat/shuffle-all0.png'),
+    single_loop: require('../../imgs/theme1/iconSpeaker/repeat/single-loop.png'),
+    single_loop0: require('../../imgs/theme1/iconSpeaker/repeat/single-loop0.png'),
+  },
+  next: require('../../imgs/theme1/iconSpeaker/Next/Black.png'),
+  prew: require('../../imgs/theme1/iconSpeaker/Previous/Black.png'),
+  pause: require('../../imgs/theme1/iconSpeaker/Pause/pause_icon.png'),
+  play: require('../../imgs/theme1/iconSpeaker/Play/Black.png'),
+  play2: require('../../imgs/theme1/iconSpeaker/Play/play_button.png'),
+  listMusic: require('../../imgs/theme1/iconSpeaker/listMusic/Black.png'),
+  favouriteBlue: require('../../imgs/theme1/iconSpeaker/favourite/orange.png'),
+  favouriteBlack: require('../../imgs/theme1/iconSpeaker/favourite/Black.png'),
 }
 
 export const base = {
@@ -81,6 +98,7 @@ export const base = {
   right: require('../../imgs/theme1/base/right/Orange.png'),
   left: require('../../imgs/theme1/base/left/Orange.png'),
   leftWhite: require('../../imgs/theme1/base/left/White.png'),
+  check: require('../../imgs/theme1/base/check/Checkmark.png'),
 }
 
 export const backGround = {

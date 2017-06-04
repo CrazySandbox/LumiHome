@@ -32,6 +32,8 @@ import Intro3 from './screens/intro/intro3';
 
 import RenameSpeaker from './screens/speaker/rename';
 import SpeakerInfo from './screens/speaker/infoSpeaker';
+import PlaySpeaker from './screens/speaker/playSpeaker';
+import SlideMenuSpeaker from './screens/speaker/SlideMenuSpeaker';
 
 //import LoginForm from './screens/login/LoginForm';
 
@@ -226,6 +228,16 @@ class RouterComponent extends Component {
                     component={SpeakerInfo}
                     hideTabBar
                     title={langs.infoSpeaker}
+                  />
+                  <Scene
+                    key="playSpeaker"
+                    component={PlaySpeaker}
+                    hideNavBar
+                  />
+                  <Scene
+                    key="slideMenuSpeaker"
+                    component={SlideMenuSpeaker}
+                    hideNavBar
                   />
                 </Scene>
               </Scene>

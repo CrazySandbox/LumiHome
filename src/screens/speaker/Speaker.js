@@ -68,7 +68,7 @@ class Speaker extends Component {
   }
 
   _onPressItem = (value) => {
-    console.log('click me',value);
+    Actions.slideMenuSpeaker({type: 'reset', speaker: value})
   }
 
   _onSettingItem = (value) => {

@@ -163,7 +163,6 @@ class SpeakerListItem extends Component {
   }
 
   onSetting() {
-    //Actions.modalspeakermenu({hide: false, speaker: this.state.speaker})
     this.props.onSettingItem(this.state.speaker)
   }
 

@@ -71,6 +71,9 @@ let langs = new LocalizedString({
     filmwareSpeaker: 'Firmware Version',
     buildDateSpeaker: 'Build Date',
     uuid: 'UUID',
+    cancelSpeaker: 'Cancel',
+    doneSpeaker: 'OK',
+    enterNameSpeaker: 'Enter name',
   },
   vn: {
     //****Tabbar
@@ -140,6 +143,9 @@ let langs = new LocalizedString({
     filmwareSpeaker: 'Phiên bản phần mềm',
     buildDateSpeaker: 'Build Date',
     uuid: 'UUID',
+    cancelSpeaker: 'Huỷ',
+    doneSpeaker: 'Thực hiện',
+    enterNameSpeaker: 'Nhập tên Speaker',
   }
 });
 
