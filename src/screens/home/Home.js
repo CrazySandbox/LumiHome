@@ -17,6 +17,7 @@ import { Actions } from 'react-native-router-flux';
 import Button from '../../components/base/button';
 import SocketClient from '../../config/socket/socket-client';
 import CommonData from '../../config/socket/CommonData';
+var Sound = require('react-native-sound');
 
 var { height, width } = Dimensions.get('window');
 
@@ -78,9 +79,17 @@ class Home extends Component {
   }
 
   _onPress() {
-    SocketClient.getInstance().sendCommandStringInPlace(this.PLACE, '$log=get', {domain:!this.props.data.domain ? '' : this.props.data.domain, type:'0', startime:String(startime.getTime()), space:String(space)}, (json)=>{
-      console.log('get', json)
-    })
+    // SocketClient.getInstance().sendCommandStringInPlace(this.PLACE, '$log=get', {domain:!this.props.data.domain ? '' : this.props.data.domain, type:'0', startime:String(startime.getTime()), space:String(space)}, (json)=>{
+    //   console.log('get', json)
+    // })
+    var whoosh = new Sound('whoosh.mp3', Sound.MAIN_BUNDLE, (error) => {
+  if (error) {
+    console.log('failed to load the sound', error);
+    return;
+  }
+  // loaded successfully
+  console.log('duration in seconds: ' + whoosh.getDuration() + 'number of channels: ' + whoosh.getNumberOfChannels());
+});
   }
 
   render() {

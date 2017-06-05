@@ -42,7 +42,7 @@ class SlideMenuSpeaker extends Component {
   }
 
   render() {
-    const menu = <SpeakerMenu />
+    const menu = <SpeakerMenu speaker={this.props.speaker} />
     return (
       <SideMenu
         isOpen={this.state.isOpen}

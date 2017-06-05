@@ -33,7 +33,7 @@ class Speaker extends Component {
   }
 
   componentWillMount() {
-    this.props.listenUPNPSpeaker(this.state.loading)
+    //this.props.listenUPNPSpeaker(this.state.loading)
     Actions.refresh({onRight: this.onRight, rightButtonImage: imgs.iconSpeaker.add})
   }
 

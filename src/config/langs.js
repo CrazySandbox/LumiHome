@@ -79,6 +79,7 @@ let langs = new LocalizedString({
     shareMusic: 'Share',
     favourite: 'Favourite',
     homeDisplay: 'Home Display',
+    listMusic: 'List Music',
   },
   vn: {
     //****Tabbar
@@ -156,6 +157,7 @@ let langs = new LocalizedString({
     shareMusic: 'Chia sẻ',
     favourite: 'Ưu thích',
     homeDisplay: 'Hiển thị màn hình chính',
+    listMusic: 'Danh sách nhạc',
   }
 });
 

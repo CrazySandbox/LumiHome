@@ -18,7 +18,7 @@ import { getMasterSlave, delMasterSlave } from '../../actions';
 import SliderBase from '../../components/base/Slider';
 import WifiAudio from '../../actions/speaker/wifiaudio';
 import Toast from '@remobile/react-native-toast';
-import { Utf8ArrayToStr } from '../../actions/speaker/convertData';
+import { Utf8Decode } from '../../actions/speaker/convertData';
 import { getDateTimeSpeaker } from '../../components/until';
 
 var { width, height} = Dimensions.get('window');
@@ -37,6 +37,7 @@ class SpeakerListItem extends Component {
       masterSlave: {}
     }
     this.intervalUpdate = null
+    this.mounted = false;
   }
 
   componentWillMount() {
@@ -44,11 +45,12 @@ class SpeakerListItem extends Component {
   }
 
   componentDidMount() {
+    this.mounted = true;
     WifiAudio.getStatus(this.props.ip, (json) => {
       let speaker = this.state.speaker
       speaker.ip = this.state.ip
       speaker.device = json
-
+      if(!this.mounted) return
       this.setState({
         speaker: speaker
       })
@@ -132,6 +134,7 @@ class SpeakerListItem extends Component {
   }
 
   componentWillUnmount() {
+    this.mounted = false;
     if(this.intervalUpdate) {
 			clearInterval(this.intervalUpdate)
 		}
@@ -234,7 +237,7 @@ class SpeakerListItem extends Component {
             </Text>
             <View style={{flex: 1}}>
               <Text style={styles.titleMusic} numberOfLines={1}>
-                {speaker.player.Title == "Unknown" ? "No song" : Utf8ArrayToStr(speaker.player.Title)}
+                {speaker.player.Title == "Unknown" ? "No song" : Utf8Decode(speaker.player.Title)}
               </Text>
             </View>
           </View>

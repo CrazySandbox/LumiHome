@@ -143,7 +143,7 @@ class SocketClient {
 
 	connect() {
     	var net = require('react-native-tcp')
-      this.socket = net.createConnection(1221, "35.154.231.180");
+      this.socket = net.createConnection(1221, "13.126.14.105");
     	// this.socket = net.createConnection(1221, "35.154.231.180"); SV an do
       // this.socket = net.createConnection(1221, "125.212.226.68"); SV VN
     	this.socket.on("connect", () => {

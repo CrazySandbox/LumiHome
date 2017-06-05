@@ -26,7 +26,12 @@ class SpeakerMenu extends Component {
 
   }
 
+  onUSB() {
+    Actions.listMusicUSB({type: 'reset', speaker: this.props.speaker})
+  }
+
   render() {
+    console.log('speaker', this.props)
     return (
       <View style={styles.container}>
         <NavMenu title="Menu" />
@@ -45,7 +50,7 @@ class SpeakerMenu extends Component {
           <View style={styles.row}>
             <TouchableOpacity
               style={styles.button}
-              onPress={this.localMusic.bind(this)}
+              onPress={this.onUSB.bind(this)}
             >
               <Image style={styles.img} source={imgs.iconSpeaker.usb} />
               <Text style={styles.text}>

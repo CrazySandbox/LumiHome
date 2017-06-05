@@ -34,6 +34,7 @@ import RenameSpeaker from './screens/speaker/rename';
 import SpeakerInfo from './screens/speaker/infoSpeaker';
 import PlaySpeaker from './screens/speaker/playSpeaker';
 import SlideMenuSpeaker from './screens/speaker/SlideMenuSpeaker';
+import ListMusicUSB from './screens/speaker/ListMusic';
 
 //import LoginForm from './screens/login/LoginForm';
 
@@ -221,6 +222,13 @@ class RouterComponent extends Component {
                     component={RenameSpeaker}
                     hideTabBar
                     title={langs.renameSpeaker}
+                    rightButtonTextStyle={commonStyle.navRightTextButton}
+                  />
+                  <Scene
+                    key="listMusicUSB"
+                    component={ListMusicUSB}
+                    hideTabBar
+                    title={langs.listMusic}
                     rightButtonTextStyle={commonStyle.navRightTextButton}
                   />
                   <Scene

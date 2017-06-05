@@ -5,7 +5,9 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  Dimensions
+  Dimensions,
+  Animated,
+  Easing
 } from 'react-native';
 
 import Body from '../../config/body';
@@ -17,11 +19,11 @@ import NavBar from '../../components/navBar';
 import SliderBase from '../../components/base/Slider';
 import Toast from '@remobile/react-native-toast';
 import WifiAudio from '../../actions/speaker/wifiaudio';
-import { Utf8ArrayToStr } from '../../actions/speaker/convertData';
+import { Utf8Decode } from '../../actions/speaker/convertData';
 import { parseTime } from '../../components/until';
 
 const { height, width } = Dimensions.get('window');
-const TIME_UPDATE = 1000;
+const TIME_UPDATE = 500;
 
 class PlaySpeaker extends Component {
 
@@ -31,8 +33,9 @@ class PlaySpeaker extends Component {
       showVolume: false,
       speaker: this.props.speaker,
       totalPos: parseInt(this.props.speaker.player.totlen),
-      currPos: parseInt(this.props.speaker.player.curpos)
+      currPos: parseInt(this.props.speaker.player.curpos),
     }
+    this.spinValue = new Animated.Value(0)
     this.intervalUpdate = null;
     this.VolumeControllerValueUpdatedEvent = null;
   }
@@ -40,7 +43,18 @@ class PlaySpeaker extends Component {
   componentDidMount() {
     this.update();
 		this.reg();
+    this.spin()
   }
+
+  spin () {
+    this.spinValue.setValue(0)
+    Animated.timing(this.spinValue,{
+      toValue: 1,
+      duration: 15000,
+      easing: Easing.linear
+    }
+  ).start(() => this.spin())
+}
 
   update() {
 		WifiAudio.getPlayerStatus(this.state.speaker.ip, (json) => {
@@ -129,8 +143,15 @@ class PlaySpeaker extends Component {
     }
   }
 
+  openListMusic() {
+    Actions.listMusicUSB({type: 'reset', speaker: this.state.speaker})
+  }
+
   render() {
-    console.log('this.state', this.state.speaker)
+    const spin = this.spinValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0deg', '360deg']
+    })
     const { speaker } = this.state;
     const navBar = (
       <NavBar
@@ -146,7 +167,9 @@ class PlaySpeaker extends Component {
         {navBar}
         <View style={styles.container}>
           <View style={styles.top}>
-
+            <Animated.Image
+              style={[{transform: [{rotate: spin}]}, styles.imgBan]}
+              source={imgs.iconSpeaker.banMusic3} />
           </View>
           <View style={styles.bottom}>
             <View style={styles.Slider}>
@@ -158,7 +181,7 @@ class PlaySpeaker extends Component {
                 maximumValue={this.state.totalPos}
                 step={1}
                 onSlidingComplete={(value)=>{
-    							WifiAudio.seek(this.state.speaker.ip, parseInt(value*1000), (txt)=>{
+    							WifiAudio.seek(this.state.speaker.ip, parseInt(value/1000), (txt)=>{
     								console.log('seek', txt);
     							})
     						}}
@@ -183,13 +206,15 @@ class PlaySpeaker extends Component {
               </TouchableOpacity>
               <View style={styles.titleMusic}>
                 <Text style={styles.textTitle} numberOfLines={1}>
-                  {Utf8ArrayToStr(speaker.Title)}
+                  {Utf8Decode(speaker.player.Title)}
                 </Text>
                 <Text style={styles.textDentail} numberOfLines={1}>
-                  {Utf8ArrayToStr(speaker.player.Artist)} - {Utf8ArrayToStr(speaker.player.Album)}
+                  {Utf8Decode(speaker.player.Artist)} - {Utf8Decode(speaker.player.Album)}
                 </Text>
               </View>
-              <TouchableOpacity style={styles.listMusicButton}>
+              <TouchableOpacity style={styles.listMusicButton}
+                onPress={this.openListMusic.bind(this)}
+              >
                 <Image style={styles.imgListMusic} source={imgs.iconSpeaker.listMusic} />
               </TouchableOpacity>
             </View>
@@ -267,8 +292,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: width,
-    borderBottomWidth: 0.5,
-    borderBottomColor: '#2b3848'
+    //borderBottomWidth: 0.5,
+    //borderBottomColor: '#2b3848',
+    backgroundColor: 'rgba(43, 56, 72, 0.4)'
+  },
+  imgBan: {
+    width: 260,
+    height: 260
   },
   bottom: {
     flex: 4,
@@ -317,6 +347,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 13
+  },
+  titleMusic: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: width - 90,
   },
   favouriteButton: {
     height: 30,
