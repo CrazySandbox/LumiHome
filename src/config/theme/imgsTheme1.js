@@ -49,7 +49,8 @@ export const iconSetting = {
   user: require('../../imgs/theme1/iconSetting/user_image.png'),
   backWhite: require('../../imgs/theme1/iconSetting/back/White.png'),
   backOrange: require('../../imgs/theme1/iconSetting/back/Orange.png'),
-  hidemenu: require('../../imgs/theme1/iconSetting/Hide_Menu/Grey.png'),
+  hidemenu: require('../../imgs/theme1/iconSetting/Hide_Menu/White.png'),
+  hidemenuGrey: require('../../imgs/theme1/iconSetting/Hide_Menu/Grey.png'),
   iconLocal: require('../../imgs/theme1/iconSetting/Local/Green.png'),
   avatar: require('../../imgs/theme1/iconSetting/user_image.png'),
 }
@@ -106,6 +107,7 @@ export const base = {
   left: require('../../imgs/theme1/base/left/Orange.png'),
   leftWhite: require('../../imgs/theme1/base/left/White.png'),
   check: require('../../imgs/theme1/base/check/Checkmark.png'),
+  thumb: require('../../imgs/theme1/base/thumb/thumb2.png'),
 }
 
 export const backGround = {

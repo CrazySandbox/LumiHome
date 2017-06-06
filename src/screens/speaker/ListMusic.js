@@ -64,6 +64,7 @@ class ListMusicUSB extends Component {
     return (
       <View style={styles.rowContainer}>
         <TouchableOpacity
+          activeOpacity={0.8}
           style={styles.row}
           onPress={() => this._onPressItem(item)}
         >

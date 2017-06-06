@@ -5,10 +5,13 @@ import {
   TouchableOpacity,
   Image,
   StyleSheet,
-  Text
+  Text,
+  Dimensions
 } from 'react-native';
 
 import imgs from '../../config/theme';
+
+const { width, height } = Dimensions.get('window');
 
 class Input extends Component {
 
@@ -39,6 +42,7 @@ class Input extends Component {
     returnKeyType: PropTypes.string,
     focus: PropTypes.func,
     value: PropTypes.string,
+    keyboardAppearance: PropTypes.string,
   }
 
   static defaultProps = {
@@ -48,7 +52,8 @@ class Input extends Component {
     editable: true,
     selectionColor: 'white',
     error: false,
-    returnKeyType: 'next'
+    returnKeyType: 'next',
+    keyboardAppearance: 'dark'
   }
 
   onFocus() {
@@ -289,7 +294,7 @@ class Input extends Component {
 const styles = StyleSheet.create({
   container: {
     height: 40,
-    width: 320,
+    width: width - 60,
     marginBottom: 10,
     borderRadius: 5,
     paddingHorizontal: 8,

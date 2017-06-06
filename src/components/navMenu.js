@@ -32,14 +32,12 @@ class NavMenu extends Component {
       return <View />
     } else {
       return (
-        <View style={styles.top}>
-        <View style={styles.cotainer}>
+        <View style={styles.container}>
           <View style={styles.statusBar}>
           </View>
           <View style={styles.mainBar}>
             {title ? <Text style={styles.title}>{title}</Text> : <View />}
           </View>
-        </View>
         </View>
       );
     }
@@ -47,7 +45,7 @@ class NavMenu extends Component {
 }
 
 const styles = StyleSheet.create({
-  top: {
+  container: {
     height: Platform.OS == 'ios' ? 64 : 54,
     backgroundColor: 'transparent',
     borderBottomWidth: 0.5,

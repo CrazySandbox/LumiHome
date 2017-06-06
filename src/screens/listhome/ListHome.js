@@ -20,6 +20,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Swipeable from 'react-native-swipeable';
 import SocketClient from '../../config/socket/socket-client';
 import { goHome } from '../../actions';
+import NavBar from '../../components/navBar';
 
 const PLACE = 'listhome/ListHome.js';
 const { width, height } = Dimensions.get('window');
@@ -39,9 +40,16 @@ class ListHome extends Component {
     }
   }
 
+  swipeable = null;
+
+  handleUserBeganScrollingParentView() {
+    this.swipeable.recenter();
+  }
+
   _renderItem = ({item}) => {
     return (
       <Swipeable
+        onRef={ref => this.swipeable = ref}
         onSwipeStart={() => this.setState({isSwiping: true})}
         onSwipeComplete={() => this.setState({isSwiping: false})}
         onSwipeMove={() => this.setState({isSwiping: true})}
@@ -69,6 +77,7 @@ class ListHome extends Component {
         }
       >
         <TouchableOpacity
+          activeOpacity={0.7}
           style={styles.item}
           onPress={() => this.props.goHome(item.mac)}
         >
@@ -104,34 +113,18 @@ class ListHome extends Component {
     )
   }
 
+  onLeft() {
+    this.props.toggleSideMenu()
+  }
+
   render() {
     const navBar = (
-      <LinearGradient
-        style={commonStyle.navBar}
-        start={{x: 0.0, y: 0.0}} end={{x: 0.0, y: 1.0}}
-        locations={[0,0.3,1]}
-        colors={['#000', '#00000F', '#000']}>
-          <TouchableOpacity style={commonStyle.leftIconBar} onPress={() => this.props.toggleSideMenu()}>
-            <Image source={imgs.iconSetting.hidemenu} style={commonStyle.imageLeftNav} />
-          </TouchableOpacity>
-          <Text style={commonStyle.navTitle}>
-            {langs.listhome}
-          </Text>
-          <Text />
-      </LinearGradient>
+      <NavBar
+        leftImage={imgs.iconSetting.hidemenu}
+        onLeft={this.onLeft.bind(this)}
+        title={langs.listhome}
+      />
     )
-
-    // const navBar = (
-    //   <View style={{backgroundColor: 'red'}}>
-    //       <TouchableOpacity style={commonStyle.leftIconBar} onPress={() => this.props.toggleSideMenu()}>
-    //         <Image source={imgs.iconSetting.hidemenu} style={commonStyle.imageLeftNav} />
-    //       </TouchableOpacity>
-    //       <Text style={commonStyle.navTitle}>
-    //         {langs.listhome}
-    //       </Text>
-    //       <Text />
-    //   </View>
-    // )
 
     const listHome = (
       <FlatList
@@ -192,14 +185,14 @@ const styles = StyleSheet.create({
   doman: {
     fontSize: 15,
     fontWeight: '400',
-    color: 'white',
+    color: '#7e92a8',
     backgroundColor: 'transparent',
     textAlign: 'left',
   },
   mac: {
     fontSize: 13,
     fontWeight: '400',
-    color: 'white',
+    color: '#7e92a8',
     backgroundColor: 'transparent',
     textAlign: 'left',
   },
@@ -225,7 +218,7 @@ const styles = StyleSheet.create({
   textStatus: {
     fontSize: 12,
     fontWeight: '400',
-    color: 'white',
+    color: '#7e92a8',
     backgroundColor: 'transparent',
     textAlign: 'left',
     marginLeft: 8,
@@ -238,7 +231,7 @@ const styles = StyleSheet.create({
   textNohome: {
     backgroundColor: 'transparent',
     fontSize: 17,
-    color: 'white'
+    color: '#7e92a8'
   },
   Image: {
       height: 70,
@@ -273,13 +266,13 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: '500',
     textAlign: 'right',
-    color: 'white',
+    color: '#fff',
     backgroundColor: 'transparent',
   },
   textRight: {
     fontSize: 17,
     fontWeight: '500',
-    color: 'white',
+    color: '#fff',
     backgroundColor: 'transparent',
   }
 })

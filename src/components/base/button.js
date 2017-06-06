@@ -4,9 +4,12 @@ import {
   TouchableOpacity,
   View,
   Text,
+  Dimensions
 } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
+
+const { width, height } = Dimensions.get('window');
 
 const propTypes = {
   style: View.propTypes.style,
@@ -54,6 +57,7 @@ class Button extends Component {
 
     return (
       <TouchableOpacity
+        activeOpacity={0.7}
         style={[style, styles.container]}
         onPress={() => onPress()}
       >
@@ -73,7 +77,7 @@ Button.defaultProps = {
 
 const styles = StyleSheet.create({
   container: {
-    width: 320,
+    width: width - 60,
     height: 50,
   },
   button: {

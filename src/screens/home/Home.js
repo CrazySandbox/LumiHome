@@ -18,6 +18,7 @@ import Button from '../../components/base/button';
 import SocketClient from '../../config/socket/socket-client';
 import CommonData from '../../config/socket/CommonData';
 var Sound = require('react-native-sound');
+var RNFS = require('react-native-fs');
 
 var { height, width } = Dimensions.get('window');
 
@@ -82,13 +83,36 @@ class Home extends Component {
     // SocketClient.getInstance().sendCommandStringInPlace(this.PLACE, '$log=get', {domain:!this.props.data.domain ? '' : this.props.data.domain, type:'0', startime:String(startime.getTime()), space:String(space)}, (json)=>{
     //   console.log('get', json)
     // })
-    var whoosh = new Sound('whoosh.mp3', Sound.MAIN_BUNDLE, (error) => {
-  if (error) {
-    console.log('failed to load the sound', error);
-    return;
-  }
-  // loaded successfully
-  console.log('duration in seconds: ' + whoosh.getDuration() + 'number of channels: ' + whoosh.getNumberOfChannels());
+//     var whoosh = new Sound('whoosh.mp3', Sound.MAIN_BUNDLE, (error) => {
+//   if (error) {
+//     console.log('failed to load the sound', error);
+//     return;
+//   }
+//   // loaded successfully
+//   console.log('duration in seconds: ' + whoosh.getDuration() + 'number of channels: ' + whoosh.getNumberOfChannels());
+// });
+
+RNFS.readDir(RNFS.MainBundlePath) // On Android, use "RNFS.DocumentDirectoryPath" (MainBundlePath is not defined)
+.then((result) => {
+console.log('GOT RESULT', result);
+
+// stat the first file
+return Promise.all([RNFS.stat(result[0].path), result[0].path]);
+})
+.then((statResult) => {
+if (statResult[0].isFile()) {
+  // if we have a file, read it
+  return RNFS.readFile(statResult[1], 'utf8');
+}
+
+return 'no file';
+})
+.then((contents) => {
+// log the file contents
+console.log(contents);
+})
+.catch((err) => {
+console.log(err.message, err.code);
 });
   }
 

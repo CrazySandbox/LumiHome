@@ -6,6 +6,7 @@ import {
   FlatList,
   TouchableOpacity
 } from 'react-native';
+
 import Body from '../../config/body';
 import Button from '../../components/base/button';
 import langs from '../../config/langs';
@@ -19,6 +20,10 @@ import { Actions } from 'react-native-router-flux';
 import imgs from '../../config/theme';
 import Modal from 'react-native-modalbox';
 import ModalSpeakerMenu from './ModalSpeakerMenu';
+import UPNP from 'react-native-upnp'
+import WifiAudio from '../../actions/speaker/wifiaudio';
+
+var listSpeaker = [];
 
 class Speaker extends Component {
 
@@ -28,12 +33,14 @@ class Speaker extends Component {
        listIP: [],
        loading: true,
        refreshing: false,
-       selectRow: ''
+       selectRow: '',
+       listSpeaker: listSpeaker,
     }
+    this.mounted = false;
   }
 
   componentWillMount() {
-    //this.props.listenUPNPSpeaker(this.state.loading)
+    this.props.listenUPNPSpeaker(this.state.loading)
     Actions.refresh({onRight: this.onRight, rightButtonImage: imgs.iconSpeaker.add})
   }
 
@@ -42,16 +49,19 @@ class Speaker extends Component {
   }
 
   componentDidMount() {
+    this.mounted = true;
     this.props.listenUPNPSpeaker()
     this.timeoutSearch = null
-    this.timeoutSearch = setTimeout(() => {
-      this.setState({
-      loading: false
-      })
-     }, 12000);
+    if(!this.mounted) return
+    // this.timeoutSearch = setTimeout(() => {
+    //   this.setState({
+    //   loading: false
+    //   })
+    //  }, 12000);
   }
 
   componentWillUnmount() {
+    this.mounted = false;
     if(this.timeoutSearch) {
 			clearTimeout(this.timeoutSearch)
 			this.timeoutSearch = null
@@ -108,12 +118,13 @@ class Speaker extends Component {
   }
 
   render() {
+    console.log('render', this.state.listIP)
     const { listIP, loading } = this.state
     const ListSpeaker = (
       <View style={styles.container}>
         <FlatList
           data={listIP}
-          keyExtractor={item => item}
+          keyExtractor={(item, index) => index}
           renderItem={this._renderItem}
           onRefresh={this.onRefresh.bind(this)}
           refreshing={this.state.refreshing}

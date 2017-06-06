@@ -47,7 +47,7 @@ class SettingLocal extends Component {
               <Input
                 placeholder={langs.ip}
                 onChangeText={this.ipChangeText.bind(this)}
-                keyboardType="numeric"
+                keyboardType="phone-pad"
                 textInputRef="ip"
                 ref="ip"
                 onSubmitEditing={() => this.focusNextField("port")}

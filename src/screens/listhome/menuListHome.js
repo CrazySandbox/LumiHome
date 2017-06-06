@@ -12,21 +12,13 @@ import { logOut, ResetFactory } from '../../actions';
 import commonStyle from '../../config/theme/theme1';
 import langs from '../../config/langs';
 import { Actions } from 'react-native-router-flux';
-import LinearGradient from 'react-native-linear-gradient';
+import NavMenu from '../../components/navMenu';
 
 class MenuListHome extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <LinearGradient
-          style={commonStyle.navMenu}
-          start={{x: 0.0, y: 0.0}} end={{x: 0.0, y: 1.0}}
-          locations={[0,0.3,1]}
-          colors={['#000', '#00000F', '#000']}>
-          <Text style={commonStyle.navTitle}>
-            {langs.menu}
-          </Text>
-        </LinearGradient>
+        <NavMenu title={langs.menu} />
         <ScrollView>
           <TouchableOpacity
             style={styles.row}
@@ -77,18 +69,18 @@ class MenuListHome extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#29323c'
+    backgroundColor: 'rgba(43, 56, 72, 0.5)'
   },
   row: {
     height: 54,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(43, 56, 72, 0.3)',
     marginBottom: 1,
   },
   text: {
-    color: 'white',
+    color: '#7e92a8',
     fontSize: 17
   }
 });

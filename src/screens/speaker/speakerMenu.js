@@ -38,6 +38,7 @@ class SpeakerMenu extends Component {
         <ScrollView style={styles.body}>
           <View style={styles.row}>
             <TouchableOpacity
+              activeOpacity={0.7}
               style={styles.button}
               onPress={this.localMusic.bind(this)}
             >
@@ -49,10 +50,13 @@ class SpeakerMenu extends Component {
           </View>
           <View style={styles.row}>
             <TouchableOpacity
+              activeOpacity={0.7}
               style={styles.button}
               onPress={this.onUSB.bind(this)}
             >
-              <Image style={styles.img} source={imgs.iconSpeaker.usb} />
+              <Image style={styles.img}
+                resizeMode='contain'
+                source={imgs.iconSpeaker.usb} />
               <Text style={styles.text}>
                 {langs.usb}
               </Text>
@@ -60,17 +64,21 @@ class SpeakerMenu extends Component {
           </View>
           <View style={styles.row}>
             <TouchableOpacity
+              activeOpacity={0.7}
               style={styles.button}
               onPress={this.localMusic.bind(this)}
             >
-              <Image style={styles.img} source={imgs.iconSpeaker.share} />
-              <Text style={styles.text}>
+              <Image style={styles.imgShare}
+                resizeMode='contain'
+                source={imgs.iconSpeaker.share} />
+              <Text style={styles.textShare}>
                 {langs.shareMusic}
               </Text>
             </TouchableOpacity>
           </View>
           <View style={styles.row}>
             <TouchableOpacity
+              activeOpacity={0.7}
               style={styles.button}
               onPress={this.localMusic.bind(this)}
             >
@@ -82,6 +90,7 @@ class SpeakerMenu extends Component {
           </View>
           <View style={styles.row}>
             <TouchableOpacity
+              activeOpacity={0.7}
               style={styles.buttonHomeDisplay}
               onPress={this.localMusic.bind(this)}
             >
@@ -92,6 +101,7 @@ class SpeakerMenu extends Component {
                 </Text>
               </View>
               <TouchableOpacity
+                activeOpacity={0.7}
                 onPress={() => this.setState({isOpen: !this.state.isOpen})}
                 style={styles.rightHomeDisplay}
               >
@@ -117,11 +127,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   row: {
-    height: 50,
+    height: 54,
     backgroundColor: 'rgba(43, 56, 72, 0.3)',
   },
   button: {
-    height: 50,
+    height: 54,
     flexDirection: 'row',
     alignItems: 'center',
     marginLeft: 13,
@@ -132,6 +142,10 @@ const styles = StyleSheet.create({
     height: 28,
     width: 28,
   },
+  imgShare: {
+    height: 32,
+    width: 32,
+  },
   text: {
     fontSize: 17,
     fontWeight: '500',
@@ -139,8 +153,15 @@ const styles = StyleSheet.create({
     color: '#7e92a8',
     marginLeft: 13,
   },
+  textShare: {
+    fontSize: 17,
+    fontWeight: '500',
+    backgroundColor: 'transparent',
+    color: '#7e92a8',
+    marginLeft: 9,
+  },
   buttonHomeDisplay: {
-    height: 50,
+    height: 54,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -149,13 +170,13 @@ const styles = StyleSheet.create({
     borderBottomColor: '#2b3848',
   },
   leftHomeDisplay: {
-    height: 50,
+    height: 54,
     flexDirection: 'row',
     alignItems: 'center'
   },
   rightHomeDisplay: {
-    height: 50,
-    width: 50,
+    height: 54,
+    width: 54,
     justifyContent: 'center',
     alignItems: 'center',
   },

@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
   AsyncStorage,
+  Dimensions
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -21,6 +22,8 @@ import Body from '../../config/body';
 import imgs from '../../config/theme';
 import langs from '../../config/langs';
 import LoginForm from './loginForm';
+
+const { width, height } = Dimensions.get('window')
 
 class Login extends Component {
 
@@ -53,20 +56,27 @@ class Login extends Component {
       return (
         <Body>
           <View style={styles.container}>
-            <ScrollView keyboardShouldPersistTaps="always">
-              <TouchableWithoutFeedback onPress={dismissKeyboard}>
-                <KeyboardAvoidingView behavior="padding">
+            <ScrollView
+              style={{height: height}}
+              keyboardShouldPersistTaps="always">
+              <TouchableWithoutFeedback
+                onPress={dismissKeyboard}>
+                <KeyboardAvoidingView
+                  style={{flex: 1, height: height}}
+                  behavior="padding">
                   <View style={styles.logo}>
-                    <Image source={imgs.logo.logoLumi} />
+                    <Image style={styles.logoImg} source={imgs.logo.logoLumi} />
                   </View>
-                  <LoginForm />
-                  <View style={styles.forgot}>
-                    <TouchableOpacity
-                      onPress={this.doForgot}>
-                      <Text style={styles.forgotText}>
-                        {langs.forgotpass}
-                      </Text>
-                    </TouchableOpacity>
+                  <View style={styles.formLogin}>
+                    <LoginForm />
+                    <View style={styles.forgot}>
+                      <TouchableOpacity
+                        onPress={this.doForgot}>
+                        <Text style={styles.forgotText}>
+                          {langs.forgotpass}
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
                   </View>
                 </KeyboardAvoidingView>
               </TouchableWithoutFeedback>
@@ -90,8 +100,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logo: {
-    marginTop: 100,
-    alignItems: 'center'
+    flex: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent'
+  },
+  logoImg: {
+    width: 170,
+    height: 70
+  },
+  formLogin: {
+    flex: 3,
+    alignItems: 'center',
   },
   forgot: {
     justifyContent: 'center',

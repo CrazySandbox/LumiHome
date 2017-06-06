@@ -52,6 +52,7 @@ class NavBar extends Component {
 
     const renderLeftTitle = (
       <TouchableOpacity
+        activeOpacity={0.7}
         style={styles.buttonleftTitle}
         onPress={() => this.props.onLeft()}
       >
@@ -85,8 +86,7 @@ class NavBar extends Component {
       return <View />
     } else {
       return (
-        <View style={styles.top}>
-        <View style={styles.cotainer}>
+        <View style={styles.container}>
           <View style={styles.statusBar}>
           </View>
           <View style={styles.mainBar}>
@@ -101,14 +101,13 @@ class NavBar extends Component {
             }
           </View>
         </View>
-        </View>
       );
     }
   }
 }
 
 const styles = StyleSheet.create({
-  top: {
+  container: {
     height: Platform.OS == 'ios' ? 64 : 54,
     backgroundColor: 'transparent',
     borderBottomWidth: 0.5,
@@ -143,6 +142,7 @@ const styles = StyleSheet.create({
     height: 34,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'transparent',
   },
   buttonleftTitle: {
     justifyContent: 'center',

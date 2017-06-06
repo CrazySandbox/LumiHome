@@ -52,9 +52,8 @@ class PlaySpeaker extends Component {
       toValue: 1,
       duration: 15000,
       easing: Easing.linear
-    }
-  ).start(() => this.spin())
-}
+    }).start(() => this.spin())
+  }
 
   update() {
 		WifiAudio.getPlayerStatus(this.state.speaker.ip, (json) => {
@@ -90,7 +89,7 @@ class PlaySpeaker extends Component {
 	}
 
   onRight() {
-    Actions.speaker({type: 'reset'})
+    Actions.speaker({type: 'replace'})
   }
 
   onLeft() {
@@ -175,7 +174,7 @@ class PlaySpeaker extends Component {
             <View style={styles.Slider}>
               <SliderBase
                 style={styles.SliderBase}
-                thumbImage={imgs.iconSpeaker.thumb2}
+                thumbImage={imgs.base.thumb}
                 value={this.state.currPos}
                 minimumValue={0}
                 maximumValue={this.state.totalPos}
@@ -201,7 +200,9 @@ class PlaySpeaker extends Component {
             </View>
 
             <View style={styles.center}>
-              <TouchableOpacity style={styles.favouriteButton}>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                style={styles.favouriteButton}>
                 <Image style={styles.imgFavourite} source={imgs.iconSpeaker.favouriteBlack} />
               </TouchableOpacity>
               <View style={styles.titleMusic}>
@@ -212,7 +213,9 @@ class PlaySpeaker extends Component {
                   {Utf8Decode(speaker.player.Artist)} - {Utf8Decode(speaker.player.Album)}
                 </Text>
               </View>
-              <TouchableOpacity style={styles.listMusicButton}
+              <TouchableOpacity
+                activeOpacity={0.7}
+                style={styles.listMusicButton}
                 onPress={this.openListMusic.bind(this)}
               >
                 <Image style={styles.imgListMusic} source={imgs.iconSpeaker.listMusic} />
@@ -221,7 +224,9 @@ class PlaySpeaker extends Component {
 
             <View style={styles.player}>
               <View style={styles.repeat}>
-                <TouchableOpacity style={styles.repeatButton}
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  style={styles.repeatButton}
                   onPress={this.onRepeat.bind(this)}
                 >
                   <Image style={styles.imgRepeat} source={this.state.speaker.player.loop == 0 ? imgs.iconSpeaker.repeat.noloop : this.state.speaker.player.loop == 1 ? imgs.iconSpeaker.repeat.single_loop : this.state.speaker.player.loop == 2 ? imgs.iconSpeaker.repeat.shuffle_all : imgs.iconSpeaker.repeat.loop } />
@@ -229,6 +234,7 @@ class PlaySpeaker extends Component {
               </View>
               <View style={styles.buttonPlayer}>
                 <TouchableOpacity
+                  activeOpacity={0.7}
                   style={styles.iconPlayer}
                   onPress={this.onPrew.bind(this)}
                 >
@@ -238,6 +244,7 @@ class PlaySpeaker extends Component {
                   />
                 </TouchableOpacity>
                 <TouchableOpacity
+                  activeOpacity={0.7}
                   style={styles.iconPlayer}
                   onPress={this.onPlay.bind(this)}
                 >
@@ -247,6 +254,7 @@ class PlaySpeaker extends Component {
                   />
                 </TouchableOpacity>
                 <TouchableOpacity
+                  activeOpacity={0.7}
                   style={styles.iconPlayer}
                   onPress={this.onNext.bind(this)}
                 >
@@ -257,7 +265,9 @@ class PlaySpeaker extends Component {
                 </TouchableOpacity>
               </View>
               <View style={styles.volume}>
-                <TouchableOpacity style={styles.volumeButton}
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  style={styles.volumeButton}
                   onPress={() => this.setState({ showVolume : !this.state.showVolume
                   })}
                 >
@@ -292,9 +302,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: width,
-    //borderBottomWidth: 0.5,
-    //borderBottomColor: '#2b3848',
-    backgroundColor: 'rgba(43, 56, 72, 0.4)'
+    backgroundColor: 'rgba(43, 56, 72, 0.3)'
   },
   imgBan: {
     width: 260,
@@ -360,8 +368,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   imgFavourite: {
-    height: 24,
-    width: 24,
+    height: 26,
+    width: 26,
   },
   listMusicButton: {
     height: 30,

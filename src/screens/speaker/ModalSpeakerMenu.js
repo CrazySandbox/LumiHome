@@ -165,6 +165,7 @@ class ModalSpeakerMenu extends Component {
 
     const Close = (
       <TouchableOpacity
+        activeOpacity={0.8}
         style={styles.viewClosedTimer}
         onPress={this.onSetTimer.bind(this)}
       >
@@ -176,6 +177,7 @@ class ModalSpeakerMenu extends Component {
 
     const Footer = (
       <TouchableOpacity
+        activeOpacity={0.8}
         style={styles.footer}
         onPress={this.dismissModal.bind(this)}
       >
@@ -203,6 +205,7 @@ class ModalSpeakerMenu extends Component {
 
           <View style={styles.body}>
             <TouchableOpacity
+              activeOpacity={0.8}
               style={styles.row}
               onPress={this.onRename.bind(this)}
             >
@@ -216,6 +219,7 @@ class ModalSpeakerMenu extends Component {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
+              activeOpacity={0.8}
               style={styles.row}
               onPress={this.joinSpeaker.bind(this)}
             >
@@ -229,6 +233,7 @@ class ModalSpeakerMenu extends Component {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
+              activeOpacity={0.8}
               style={styles.row}
               onPress={this.speakerInfo.bind(this)}
             >
@@ -242,6 +247,7 @@ class ModalSpeakerMenu extends Component {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
+              activeOpacity={0.8}
               style={styles.row}
               onPress={this.alarmClock.bind(this)}
             >
@@ -255,6 +261,7 @@ class ModalSpeakerMenu extends Component {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
+              activeOpacity={0.8}
               style={styles.rowTimer}
               onPress={this.sleepTimer.bind(this)}
             >

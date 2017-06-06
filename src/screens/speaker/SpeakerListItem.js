@@ -41,11 +41,6 @@ class SpeakerListItem extends Component {
   }
 
   componentWillMount() {
-
-  }
-
-  componentDidMount() {
-    this.mounted = true;
     WifiAudio.getStatus(this.props.ip, (json) => {
       let speaker = this.state.speaker
       speaker.ip = this.state.ip
@@ -55,7 +50,10 @@ class SpeakerListItem extends Component {
         speaker: speaker
       })
     })
+  }
 
+  componentDidMount() {
+    this.mounted = true;
     WifiAudio.synchClock(this.props.ip, getDateTimeSpeaker(), (json) => {});
 
     this.update();
@@ -183,7 +181,7 @@ class SpeakerListItem extends Component {
 
     const leftRightChannel =
       (
-        <TouchableOpacity activeOpacity={0.7}
+        <TouchableOpacity activeOpacity={0.8}
           onPress={this.onSetChannel.bind(this)}
         >
           <Text style={styles.textLeftRight}>
@@ -200,6 +198,7 @@ class SpeakerListItem extends Component {
 
     return (
       <TouchableOpacity
+        activeOpacity={0.8}
         onPress={this.onSelect.bind(this)}
         style={styles.container}
       >
@@ -216,6 +215,7 @@ class SpeakerListItem extends Component {
               {speaker.device.DeviceName}
             </Text>
             <TouchableOpacity
+              activeOpacity={0.8}
               style={styles.iconSetting}
               onPress={this.onSetting.bind(this)}
             >
@@ -243,6 +243,7 @@ class SpeakerListItem extends Component {
           </View>
           <View style={styles.bottomView}>
             <TouchableOpacity
+              activeOpacity={0.8}
               style={styles.volMute}
               onPress={this.onSetMute.bind(this)}
             >

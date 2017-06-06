@@ -20,6 +20,7 @@ class MyListItem extends Component {
   render() {
     return (
       <TouchableOpacity
+        activeOpacity={0.7}
         onPress={() => console.log(this.props)}
         style={{justifyContent: 'center', alignItems: 'center'}}
       >
@@ -122,6 +123,7 @@ class RenameSpeaker extends Component {
     return (
       <View style={styles.rowContainer}>
         <TouchableOpacity
+          activeOpacity={0.7}
           style={styles.row}
           onPress={() => this._onPressItem(item)}
         >

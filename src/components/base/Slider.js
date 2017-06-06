@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import imgs from '../../config/theme';
 
-var { width, height} = Dimensions.get('window');
+var { width, height } = Dimensions.get('window');
 
 class SliderBase extends Component {
 
