@@ -17,8 +17,11 @@ import { Actions } from 'react-native-router-flux';
 import Button from '../../components/base/button';
 import SocketClient from '../../config/socket/socket-client';
 import CommonData from '../../config/socket/CommonData';
+import imgs from '../../config/theme';
+import NavBar from '../../components/navBar';
 var Sound = require('react-native-sound');
-var RNFS = require('react-native-fs');
+import langs from '../../config/langs';
+//var RNFS = require('react-native-fs');
 
 var { height, width } = Dimensions.get('window');
 
@@ -36,7 +39,7 @@ class Home extends Component {
       floors:[
       ],
       refreshCount:0,
-      idTimer:null
+      idTimer:null,
     }
     // CommonData.getInstance().setDomain(this.props.data.domain);
     // CommonData.getInstance().setMacAdress(this.props.data.mac);
@@ -67,6 +70,10 @@ class Home extends Component {
     // });
   }
 
+  componentWillMount() {
+
+  }
+
   componentDidMount()
   {
     // if(this.state.loading)
@@ -83,49 +90,42 @@ class Home extends Component {
     // SocketClient.getInstance().sendCommandStringInPlace(this.PLACE, '$log=get', {domain:!this.props.data.domain ? '' : this.props.data.domain, type:'0', startime:String(startime.getTime()), space:String(space)}, (json)=>{
     //   console.log('get', json)
     // })
-//     var whoosh = new Sound('whoosh.mp3', Sound.MAIN_BUNDLE, (error) => {
-//   if (error) {
-//     console.log('failed to load the sound', error);
-//     return;
-//   }
-//   // loaded successfully
-//   console.log('duration in seconds: ' + whoosh.getDuration() + 'number of channels: ' + whoosh.getNumberOfChannels());
-// });
 
-RNFS.readDir(RNFS.MainBundlePath) // On Android, use "RNFS.DocumentDirectoryPath" (MainBundlePath is not defined)
-.then((result) => {
-console.log('GOT RESULT', result);
+  }
 
-// stat the first file
-return Promise.all([RNFS.stat(result[0].path), result[0].path]);
-})
-.then((statResult) => {
-if (statResult[0].isFile()) {
-  // if we have a file, read it
-  return RNFS.readFile(statResult[1], 'utf8');
-}
+  onLeft() {
+    this.props.toggleSideMenu()
+  }
 
-return 'no file';
-})
-.then((contents) => {
-// log the file contents
-console.log(contents);
-})
-.catch((err) => {
-console.log(err.message, err.code);
-});
+  onTitle1() {
+    Actions.refresh()
+  }
+
+  onTitle2() {
+
   }
 
   render() {
-    console.log(this.state.floors)
+    const navBar = (
+      <NavBar
+        leftImage={imgs.iconSetting.hidemenu}
+        type="daskboard"
+        title={this.props.data.connectServer ? this.props.home.name : langs.home}
+        title2={langs.history}
+        onTitle1={this.onTitle1.bind(this)}
+        onTitle2={this.onTitle2.bind(this)}
+        onLeft={this.onLeft.bind(this)}
+      />
+    )
     return (
       <Body>
+        {navBar}
         <View style={styles.container}>
           <View>
             <TextInput />
             <Button
               style={{backgroundColor: '#19c1ff'}}
-              title="Button"
+              title={langs.home}
               onPress={() => this._onPress()}
             />
           </View>
@@ -182,7 +182,11 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  return { data: state.authen.listhome[0] }
+  console.log('mapStateToProps', state.authen)
+  return {
+    data: state.authen,
+    home: state.authen.gohome
+  }
 }
 
 export default connect(mapStateToProps, { LoginAction })(Home);

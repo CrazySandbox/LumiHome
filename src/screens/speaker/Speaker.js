@@ -40,7 +40,6 @@ class Speaker extends Component {
   }
 
   componentWillMount() {
-    this.props.listenUPNPSpeaker(this.state.loading)
     Actions.refresh({onRight: this.onRight, rightButtonImage: imgs.iconSpeaker.add})
   }
 
@@ -49,6 +48,7 @@ class Speaker extends Component {
   }
 
   componentDidMount() {
+    console.log('componentDidMount', this.props.data)
     this.mounted = true;
     this.props.listenUPNPSpeaker()
     this.timeoutSearch = null
@@ -69,7 +69,10 @@ class Speaker extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log('state',this.state.listIP)
+    console.log('props',nextProps.data)
     if(this.state.listIP !== nextProps.data) {
+      console.log('setState',nextProps.data)
       this.setState({
         listIP: nextProps.data,
         loading: false
@@ -129,6 +132,7 @@ class Speaker extends Component {
           onRefresh={this.onRefresh.bind(this)}
           refreshing={this.state.refreshing}
           enableEmptySections={true}
+          extraData={listIP}
         />
         <Modal
           style={styles.modal}

@@ -383,7 +383,8 @@ const styles = StyleSheet.create({
     height: 60,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 5
+    marginBottom: 5,
+    width: width
   },
   footer: {
     paddingBottom: 8

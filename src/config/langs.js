@@ -4,7 +4,6 @@ import LocalizedString from 'react-native-localization';
 
 let langs = new LocalizedString({
   en: {
-    //****Tabbar
     home: 'HOME',
     room: 'ROOM',
     scene: 'SCENE',
@@ -80,9 +79,28 @@ let langs = new LocalizedString({
     favourite: 'Favourite',
     homeDisplay: 'Home Display',
     listMusic: 'List Music',
+
+    // Dashboard
+    connection: 'Connection',
+    chooseHC: 'Choose HC',
+    infoHC: 'Info HC',
+    myAccount: 'My Account',
+    settingApp: 'Setting Apps',
+    signOut: 'Sign Out',
+    history: 'EVENT',
+
+    language: 'Language',
+    setupRing: 'Setup Ring',
+    notification: 'Notification',
+    homeDisplay: 'Home Display',
+    en: 'English',
+    vn: 'Vietnamese',
+    enable: 'Enable',
+    disable: 'Disable',
+    save: 'Save',
+    unknow: 'Unknow',
   },
   vn: {
-    //****Tabbar
     home: 'NHÀ',
     room: 'PHÒNG',
     scene: 'CẢNH',
@@ -158,6 +176,26 @@ let langs = new LocalizedString({
     favourite: 'Ưu thích',
     homeDisplay: 'Hiển thị màn hình chính',
     listMusic: 'Danh sách nhạc',
+
+    // Dashboard
+    connection: 'Loại kết nối',
+    chooseHC: 'Chọn nhà',
+    infoHC: 'Thông tin HC',
+    myAccount: 'Tài khoản',
+    settingApp: 'Cài đặt Apps',
+    signOut: 'Thoát',
+    history: 'SỰ KIỆN',
+
+    language: 'Ngôn ngữ',
+    setupRing: 'Cài đặt rung',
+    notification: 'Thông báo',
+    homeDisplay: 'Hiển thị màn hình chính',
+    en: 'Tiếng Anh',
+    vn: 'Tiếng Việt',
+    enable: 'Cho phép',
+    disable: 'Không cho phép',
+    save: 'Lưu',
+    unknow: 'Unknow',
   }
 });
 

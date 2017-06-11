@@ -17,7 +17,11 @@ const { height, width } = Dimensions.get('window');
 class NavBar extends Component {
 
   static propTypes = {
+    type: PropTypes.string,
     title: PropTypes.string,
+    title2: PropTypes.string,
+    onTitle1: PropTypes.func,
+    onTitle2: PropTypes.func,
     leftImage: Image.propTypes.source,
     onLeft: PropTypes.func,
     leftTitle: PropTypes.string,
@@ -28,12 +32,17 @@ class NavBar extends Component {
   }
 
   static defaultProps = {
-    hideNav: false
+    hideNav: false,
+    type: "normal"
   }
 
   render() {
     const {
+      type,
       title,
+      title2,
+      onTitle1,
+      onTitle2,
       leftTitle,
       leftImage,
       rightTitle,
@@ -43,6 +52,7 @@ class NavBar extends Component {
 
     const renderLeft = (
       <TouchableOpacity
+        activeOpacity={0.7}
         style={styles.buttonLeft}
         onPress={() => this.props.onLeft()}
       >
@@ -56,7 +66,7 @@ class NavBar extends Component {
         style={styles.buttonleftTitle}
         onPress={() => this.props.onLeft()}
       >
-        <Text style={styles.leftTitle}>
+        <Text style={styles.leftTitle} numberOfLines={1}>
           {leftTitle}
         </Text>
       </TouchableOpacity>
@@ -64,6 +74,7 @@ class NavBar extends Component {
 
     const renderRight = (
       <TouchableOpacity
+        activeOpacity={0.7}
         style={styles.buttonRight}
         onPress={() => this.props.onRight()}
       >
@@ -73,13 +84,40 @@ class NavBar extends Component {
 
     const renderRightTitle = (
       <TouchableOpacity
+        activeOpacity={0.7}
         style={styles.buttonRightTitle}
         onPress={() => this.props.onRight()}
       >
-        <Text style={styles.rightTitle}>
+        <Text style={styles.rightTitle} numberOfLines={1}>
           {rightTitle}
         </Text>
       </TouchableOpacity>
+    )
+
+    const renderDashBoardTitle = (
+      <View style={styles.dashboardTitle}>
+        <View style={styles.viewTitle1}>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={onTitle1}
+          >
+            <Text style={styles.title1} numberOfLines={1}>
+              {title}
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.viewCenter} />
+        <View style={styles.viewTitle2}>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={onTitle2}
+          >
+            <Text style={styles.title2} numberOfLines={1}>
+              {title2}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     )
 
     if(hideNav) {
@@ -91,13 +129,13 @@ class NavBar extends Component {
           </View>
           <View style={styles.mainBar}>
             {
-              leftImage ? renderLeft : leftTitle ? renderLeftTitle : <View />
+              leftImage ? renderLeft : leftTitle ? renderLeftTitle : <View style={styles.view}/>
             }
             {
-              title ? <Text style={styles.title}>{title}</Text> : <View />
+              type=="daskboard" ? renderDashBoardTitle : title ? <Text style={styles.title}>{title}</Text> : <View />
             }
             {
-              rightImage ? renderRight : rightTitle ? renderRightTitle : <View />
+              rightImage ? renderRight : rightTitle ? renderRightTitle : <View style={styles.view}/>
             }
           </View>
         </View>
@@ -166,6 +204,44 @@ const styles = StyleSheet.create({
   title: {
     color: '#fff',
     fontSize: 20,
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+  view: {
+    backgroundColor: 'transparent',
+    width: 34,
+    height: 34,
+  },
+  dashboardTitle: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: width - 84,
+  },
+  viewTitle1: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: (width - 85)/2
+  },
+  title1: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+  viewCenter: {
+    width: 0.5,
+    height: 10,
+    backgroundColor: '#7e92a8',
+  },
+  viewTitle2: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: (width - 85)/2
+  },
+  title2: {
+    color: '#fff',
+    fontSize: 18,
     fontWeight: '500',
     textAlign: 'center',
   }

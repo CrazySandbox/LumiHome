@@ -19,6 +19,7 @@ export const GOHOME = "GOHOME";
 export const LOGOUT = "LOGOUT";
 export const RESETFACTORY = "RESETFACTORY";
 export const BACK_LOGIN = "BACK_LOGIN";
+export const GO_LISTHOME = "GO_LISTHOME";
 
 // get data from store
 export const GETLANGUAGE = "GETLANGUAGE";

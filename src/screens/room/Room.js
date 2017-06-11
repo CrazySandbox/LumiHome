@@ -51,7 +51,6 @@ class Room extends Component {
 
   render() {
     const {routes} = this.context;
-    console.log('room context',this.context)
     return (
       <Body>
         <View style={styles.container} >

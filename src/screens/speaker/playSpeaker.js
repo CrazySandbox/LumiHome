@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
   StyleSheet,
   View,
@@ -34,10 +34,20 @@ class PlaySpeaker extends Component {
       speaker: this.props.speaker,
       totalPos: parseInt(this.props.speaker.player.totlen),
       currPos: parseInt(this.props.speaker.player.curpos),
+      favourite: false,
     }
     this.spinValue = new Animated.Value(0)
     this.intervalUpdate = null;
     this.VolumeControllerValueUpdatedEvent = null;
+  }
+
+  static contextTypes = {
+    routes: PropTypes.object.isRequired,
+  };
+
+  componentWillMount() {
+    this.context.routes.refresh()
+    Actions.refresh({hideNavBar: true})
   }
 
   componentDidMount() {
@@ -48,11 +58,11 @@ class PlaySpeaker extends Component {
 
   spin () {
     this.spinValue.setValue(0)
-    Animated.timing(this.spinValue,{
+    this.state.animation = Animated.timing(this.spinValue,{
       toValue: 1,
       duration: 15000,
       easing: Easing.linear
-    }).start(() => this.spin())
+    })
   }
 
   update() {
@@ -89,7 +99,9 @@ class PlaySpeaker extends Component {
 	}
 
   onRight() {
-    Actions.speaker({type: 'replace'})
+    //Actions.tab7({type: 'reset'})
+    //console.log('this', this)
+    this.context.routes.tab7()
   }
 
   onLeft() {
@@ -134,16 +146,24 @@ class PlaySpeaker extends Component {
     if(this.state.speaker.player.status == "play") {
       WifiAudio.setPlay(this.state.speaker.ip, 'pause', (txt)=>{
         console.log('pause', txt);
+        this.state.animation.stop()
       })
     } else {
       WifiAudio.setPlay(this.state.speaker.ip, 'play', (txt)=>{
         console.log('play', txt);
+        this.state.animation.start(() => this.spin())
       })
     }
   }
 
   openListMusic() {
     Actions.listMusicUSB({type: 'reset', speaker: this.state.speaker})
+  }
+
+  onFavourite() {
+    this.setState({
+      favourite: !this.state.favourite
+    })
   }
 
   render() {
@@ -202,8 +222,9 @@ class PlaySpeaker extends Component {
             <View style={styles.center}>
               <TouchableOpacity
                 activeOpacity={0.7}
+                onPress={this.onFavourite.bind(this)}
                 style={styles.favouriteButton}>
-                <Image style={styles.imgFavourite} source={imgs.iconSpeaker.favouriteBlack} />
+                <Image style={styles.imgFavourite} source={this.state.favourite ? imgs.iconSpeaker.favouriteBlue : imgs.iconSpeaker.favouriteBlack} />
               </TouchableOpacity>
               <View style={styles.titleMusic}>
                 <Text style={styles.textTitle} numberOfLines={1}>

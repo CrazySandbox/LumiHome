@@ -9,6 +9,7 @@ import {
 import { SideMenu } from 'react-native-elements';
 import SpeakerMenu from './speakerMenu';
 import PlaySpeaker from './playSpeaker';
+import { Actions } from 'react-native-router-flux';
 
 const { width, height } = Dimensions.get('window');
 
@@ -19,6 +20,10 @@ class SlideMenuSpeaker extends Component {
       isOpen: false,
     }
     this.toggleSideMenu = this.toggleSideMenu.bind(this)
+  }
+
+  componentWillMount() {
+    Actions.refresh({hideNavBar: true})
   }
 
   componentWillReceiveProps() {

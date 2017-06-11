@@ -326,8 +326,8 @@ const styles = StyleSheet.create({
     paddingTop: 3,
   },
   imgSetting: {
-    width: 24,
-    height: 24,
+    width: 28,
+    height: 28,
     backgroundColor: 'transparent'
   },
   stateMusic: {
@@ -366,10 +366,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   leftRight: {
-    width: 28,
-    height: 28,
+    width: 32,
+    height: 32,
     backgroundColor: 'transparent',
-    borderRadius: 14,
+    borderRadius: 16,
     borderWidth: 1,
     borderColor: '#7e92a8',
     justifyContent: 'center',

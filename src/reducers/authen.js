@@ -13,7 +13,8 @@ import {
   LOADFINISHDATA,
   RESETFACTORY,
   GOHOME,
-  BACK_LOGIN
+  BACK_LOGIN,
+  GO_LISTHOME
 } from '../actions/types';
 
 const INITIAL = {
@@ -24,6 +25,7 @@ const INITIAL = {
   authen: false,
   autoLogin: "0",
   lasthome: "0",
+  gohome: {},
   initInstall: 1,
   language: "vn",
   theme: "darktheme",
@@ -130,6 +132,7 @@ export default (state = INITIAL, action) => {
           authen: false,
           autoLogin: "0",
           lasthome: "0",
+          gohome: {},
           initInstall: 1,
           language: "vn",
           theme: "darktheme",
@@ -144,7 +147,13 @@ export default (state = INITIAL, action) => {
         return {
           ...state,
           autoLogin: "1",
-          lasthome: action.payload
+          lasthome: action.mac,
+          gohome: action.home
+        }
+      case GO_LISTHOME:
+        return {
+          ...state,
+          lasthome: "0"
         }
     default:
       return state;

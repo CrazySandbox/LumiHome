@@ -1,4 +1,5 @@
 import { AsyncStorage } from 'react-native';
+import langs from '../../config/langs';
 
 export const setItemToStore = (item, value) => {
   try {
@@ -9,6 +10,7 @@ export const setItemToStore = (item, value) => {
 }
 
 export const setLanguage = (value) => {
+  langs.setLanguage(value)
   setItemToStore('language', value);
 }
 

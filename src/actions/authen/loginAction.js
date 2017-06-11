@@ -7,6 +7,7 @@ import {
   LOGOUT,
   GOHOME,
   RESETFACTORY,
+  GO_LISTHOME
 } from '../types';
 import SocketClient from '../../config/socket/socket-client';
 import langs from '../../config/langs';
@@ -142,11 +143,30 @@ export const ResetFactory = () => {
   }
 }
 
-export const goHome = (item) => {
-  setLastHome(item)
+export const goHome = (mac, item) => {
+  setLastHome(mac)
+  let check = checkHome(item, mac)
+  let home = item[check]
   Actions.tabbar({type: 'reset'})
   return {
     type: GOHOME,
-    payload: item
+    mac: mac,
+    home: home
+  }
+}
+
+export const goListHome = () => {
+  setLastHome("0")
+  Actions.menuhome({type: 'reset'})
+  return {
+    type: GO_LISTHOME
+  }
+}
+
+export const checkHome = (DATA, a) => {
+  for(var i = 0; i< DATA.length; i++) {
+    if(DATA[i].mac == a) {
+      return i
+    }
   }
 }

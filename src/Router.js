@@ -36,7 +36,8 @@ import PlaySpeaker from './screens/speaker/playSpeaker';
 import SlideMenuSpeaker from './screens/speaker/SlideMenuSpeaker';
 import ListMusicUSB from './screens/speaker/ListMusic';
 
-//import LoginForm from './screens/login/LoginForm';
+import SlideMenuDashboard from './screens/home/SlideMenuDashboard';
+import SettingApp from './screens/setting/SettingApp';
 
 const RouterWithRedux = connect()(Router);
 
@@ -105,8 +106,16 @@ class RouterComponent extends Component {
               navigationBarStyle={commonStyle.navBar}
               titleStyle={commonStyle.navTitle}
             />
+            <Scene
+              key="settingapp"
+              component={SettingApp}
+              title={langs.settingapp}
+              hideNavBar={false}
+              navigationBarStyle={commonStyle.navBar}
+              titleStyle={commonStyle.navTitle}
+            />
 
-            <Scene key="tabbar"  component={NavigationDrawer}>
+            <Scene key="tabbar" >
               <Scene
                 key="main"
                 tabs
@@ -120,6 +129,11 @@ class RouterComponent extends Component {
                   iconInActive={imgs.iconTabBar.home.inactive}
                   titleStyle={commonStyle.navTitle}
                 >
+                  <Scene
+                    key="slideMenuDashboard"
+                    component={SlideMenuDashboard}
+                    hideNavBar
+                  />
                   <Scene
                     key="home"
                     component={Home}
@@ -211,8 +225,9 @@ class RouterComponent extends Component {
                   iconInActive={imgs.iconTabBar.speaker.inactive}
                   titleStyle={commonStyle.navTitle}
                 >
-                  <Scene initial
+                  <Scene
                     key="speaker"
+                    initial
                     component={Speaker}
                     title={langs.speaker}
                     rightButtonTextStyle={commonStyle.navRightTextButton}
@@ -238,13 +253,13 @@ class RouterComponent extends Component {
                     title={langs.infoSpeaker}
                   />
                   <Scene
-                    key="playSpeaker"
-                    component={PlaySpeaker}
+                    key="slideMenuSpeaker"
+                    component={SlideMenuSpeaker}
                     hideNavBar
                   />
                   <Scene
-                    key="slideMenuSpeaker"
-                    component={SlideMenuSpeaker}
+                    key="playSpeaker"
+                    component={PlaySpeaker}
                     hideNavBar
                   />
                 </Scene>

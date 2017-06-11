@@ -15,6 +15,7 @@ class App extends Component {
     this.state = {
       initInstall: 0,
       loading: true,
+      language: '',
     }
   }
 
@@ -29,6 +30,21 @@ class App extends Component {
       } else {
         this.setState({
           initInstall: 1,
+        })
+      }
+    })
+
+    AsyncStorage.getItem("language")
+    .then((value) => {
+      if(value !== null) {
+        langs.setLanguage(value)
+        this.setState({
+          language: value
+        })
+      } else {
+        langs.setLanguage('en')
+        this.setState({
+          language: 'en',
         })
       }
     })

@@ -5,7 +5,6 @@ import WifiAudio from './wifiaudio';
 import {
   SEARCH_SPEAKER,
   FINISH_LOAD_SPEAKER,
-  SEARCH_SPEAKER_LOADING,
   GET_MASTER_SLAVE,
   DEL_MASTER_SLAVE
 } from '../types';
@@ -19,22 +18,16 @@ export const searchUPNP = (loading) => {
   }
 }
 
-export const searchSpeaker = (loading) => {
-  if(loading) {
-    return {
-      type: SEARCH_SPEAKER_LOADING
-    }
-  } else {
-    return {
-      type: SEARCH_SPEAKER
-    }
+export const searchSpeaker = () => {
+  return {
+    type: SEARCH_SPEAKER
   }
 }
 
-export const listenUPNPSpeaker = (loading) => {
+export const listenUPNPSpeaker = () => {
   listIP = [];
   return (dispatch) => {
-    dispatch(searchUPNP(loading))
+    dispatch(searchUPNP())
     UPNP.on((dev) => {
       let ip = dev.device.trim()
       dispatch(listenSpeaker(ip))
@@ -45,20 +38,18 @@ export const listenUPNPSpeaker = (loading) => {
 export const listenSpeaker = (ip) => {
   return (dispatch) => {
     WifiAudio.getStatus(ip, (json) => {
-        if(listIP == "") {
-          listIP.push(ip)
-        }
-        var check = checkData(listIP, ip);
-        if(!check) {
-          listIP.push(ip)
-        }
-        listIP.sort()
-        dispatch(finish(listIP))
+      var check = checkData(listIP, ip);
+      if(!check) {
+        listIP.push(ip)
+      }
+      listIP.sort()
+      dispatch(finish(listIP))
     })
   }
 }
 
 export const finish = (Data) => {
+  console.log('finish', Data)
   return {
     type: FINISH_LOAD_SPEAKER,
     payload: Data,

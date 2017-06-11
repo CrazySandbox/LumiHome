@@ -35,8 +35,25 @@ class ListHome extends Component {
   }
 
   componentWillMount() {
+    checkData = (DATA, a) => {
+      for(var i = 0; i< DATA.length; i++) {
+        if(DATA[i].mac == a) {
+          return true
+        } else {
+          return false
+        }
+      }
+    }
+
     if(this.props.Data.autoLogin == "1" && this.props.Data.lasthome !== "0") {
-      this.props.goHome(this.props.Data.lasthome)
+      if(this.state.data.length > 0) {
+        let check = checkData(this.state.data, this.props.Data.lasthome)
+        if(check) {
+          this.props.goHome(this.props.Data.lasthome, this.state.data)
+        } else {
+          return
+        }
+      }
     }
   }
 
@@ -79,7 +96,7 @@ class ListHome extends Component {
         <TouchableOpacity
           activeOpacity={0.7}
           style={styles.item}
-          onPress={() => this.props.goHome(item.mac)}
+          onPress={() => this.props.goHome(item.mac, this.state.data)}
         >
           <View style={styles.image}>
             <Image source={item.img !== '1' ? imgs.iconSetting.avatar : {uri: 'data:image/jpeg;base64,' + item.img, isStatic: true}} style={item.img === '1' ? styles.Image : styles.ImageDefault} />
@@ -98,12 +115,12 @@ class ListHome extends Component {
               <View style={styles.imageStatus}>
                 <Image
                   style={styles.imgs}
-                  source={item.state == "0" ? imgs.iconSetting.online : imgs.iconSetting.offline}
+                  source={!item.state == "0" ? imgs.iconSetting.online : imgs.iconSetting.offline}
                 />
               </View>
               <View style={styles.viewStatus}>
                 <Text style={styles.textStatus}>
-                  {item.state == "0" ? "Online" : "Offline" }
+                  {!item.state == "0" ? "Online" : "Offline" }
                 </Text>
               </View>
             </View>

@@ -53,6 +53,12 @@ export const iconSetting = {
   hidemenuGrey: require('../../imgs/theme1/iconSetting/Hide_Menu/Grey.png'),
   iconLocal: require('../../imgs/theme1/iconSetting/Local/Green.png'),
   avatar: require('../../imgs/theme1/iconSetting/user_image.png'),
+  info: require('../../imgs/theme1/iconSetting/info/Shape.png'),
+  settingBlue: require('../../imgs/theme1/iconSetting/setting/Green.png'),
+  home: require('../../imgs/theme1/iconSetting/home/Green.png'),
+  exit: require('../../imgs/theme1/iconSetting/exit/Green.png'),
+  connected: require('../../imgs/theme1/iconSetting/connect/connected/Green.png'),
+  not_connected: require('../../imgs/theme1/iconSetting/connect/not_connect/Green.png'),
 }
 
 export const iconEdit = {
@@ -103,7 +109,11 @@ export const base = {
   switchOn: require('../../imgs/theme1/base/switch/switch_on.png'),
   switchOff: require('../../imgs/theme1/base/switch/switch_off.png'),
   down: require('../../imgs/theme1/base/down/Down.png'),
+  downGrey: require('../../imgs/theme1/base/down/Green.png'),
+  downWhite: require('../../imgs/theme1/base/down/White.png'),
   right: require('../../imgs/theme1/base/right/Orange.png'),
+  rightGrey: require('../../imgs/theme1/base/right/sang_phai.png'),
+  rightWhite: require('../../imgs/theme1/base/right/White.png'),
   left: require('../../imgs/theme1/base/left/Orange.png'),
   leftWhite: require('../../imgs/theme1/base/left/White.png'),
   check: require('../../imgs/theme1/base/check/Checkmark.png'),

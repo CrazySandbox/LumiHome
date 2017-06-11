@@ -29,6 +29,7 @@ export const loadLanguageFromStore = () => {
     AsyncStorage.getItem("language")
     .then((value) => {
       if(value !== null) {
+        langs.setLanguage(value)
         dispatch(getLangSuccess(value))
       } else {
         langs.setLanguage("en")
